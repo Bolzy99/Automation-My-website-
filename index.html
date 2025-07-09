@@ -70,7 +70,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(1);
-            will-change: transform; /* Performance optimization */
+            will-change: transform, opacity; /* Performance optimization */
             text-align: center;
         }
         
@@ -108,16 +108,16 @@
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="text-2xl font-bold tracking-wider">
-                    <a href="#">SKYNET</a>
+                    <a href="index.html">SKYNET</a>
                 </div>
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#features" class="hover:text-sky-400 transition-colors">Services</a>
-                    <a href="#how-it-works" class="hover:text-sky-400 transition-colors">Our Process</a>
-                    <a href="#contact" class="hover:text-sky-400 transition-colors">Contact</a>
+                    <a href="services.html" class="hover:text-sky-400 transition-colors">Services</a>
+                    <a href="process.html" class="hover:text-sky-400 transition-colors">Our Process</a>
+                    <a href="contact.html" class="hover:text-sky-400 transition-colors">Contact</a>
                 </nav>
                 <div class="flex items-center space-x-4">
-                    <a href="#" class="hidden sm:block text-sm hover:text-sky-400 transition-colors">Sign In</a>
-                    <a href="#contact" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Book a Call</a>
+                    <a href="signin.html" class="hidden sm:block text-sm hover:text-sky-400 transition-colors">Sign In</a>
+                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Book a Call</a>
                 </div>
             </div>
         </div>
@@ -126,11 +126,6 @@
     <main>
         <!-- === HERO SECTION === -->
         <section class="relative h-screen flex items-center justify-center text-center overflow-hidden">
-            <!-- 
-                IMAGE INSTRUCTION (hero-background.jpg):
-                - Location: 'assets/hero-background.jpg'
-                - Description: A high-quality, futuristic background image. Think abstract neural networks, glowing data streams, or a subtle digital circuit pattern. It should be dark to make the white text pop.
-            -->
             <div class="absolute inset-0 bg-cover bg-center z-0" style="background-image: url('assets/hero-background.jpg');">
                 <div class="absolute inset-0 bg-black opacity-60"></div>
             </div>
@@ -143,7 +138,7 @@
                     From social media and content creation to your daily tasks, SKYNET brings the power of intelligent automation to every corner of your digital life.
                 </p>
                 <div class="mt-10 flex justify-center gap-4">
-                    <a href="#contact" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-8 py-4 rounded-lg text-lg transition-transform hover:scale-105">Book a Free Consultation</a>
+                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-8 py-4 rounded-lg text-lg transition-transform hover:scale-105">Book a Free Consultation</a>
                 </div>
             </div>
         </section>
@@ -166,11 +161,6 @@
                         <p class="text-gray-300">
                             Automatically reply to DMs and comments, schedule and upload content across Instagram, Twitter, Facebook, and YouTube. Never miss an engagement opportunity.
                         </p>
-                        <!-- 
-                            IMAGE INSTRUCTION (social-automation.gif):
-                            - Location: 'assets/social-automation.gif'
-                            - Description: A sleek, animated GIF showing social media icons (Insta, FB, etc.) with glowing lines connecting to a central brain or hub icon, symbolizing automation.
-                        -->
                         <img src="assets/social-automation.gif" alt="Social Media Automation" class="mt-6 rounded-lg w-full h-auto object-cover">
                     </div>
 
@@ -183,11 +173,6 @@
                         <p class="text-gray-300">
                             Transform a single picture into a captivating video of that person speaking. Generate dynamic content from static images effortlessly.
                         </p>
-                        <!-- 
-                            IMAGE INSTRUCTION (ai-video.jpg):
-                            - Location: 'assets/ai-video.jpg'
-                            - Description: A split-screen image. Left side: a professional headshot. Right side: a still from a generated video of the same person speaking, with subtle wave-form overlays.
-                        -->
                         <img src="assets/ai-video.jpg" alt="AI Content Creation" class="mt-6 rounded-lg w-full h-auto object-cover">
                     </div>
                     
@@ -200,11 +185,6 @@
                         <p class="text-gray-300">
                            Go beyond simple chat. We build fully-featured websites and Progressive Web Apps (PWAs) with powerful, integrated chatbots at their core, creating immersive user experiences.
                         </p>
-                        <!-- 
-                            IMAGE INSTRUCTION (chatbot-mockup.png):
-                            - Location: 'assets/chatbot-mockup.png'
-                            - Description: A high-resolution smartphone mockup (PNG with transparent background) showing a sleek, modern chat interface within a beautiful website design.
-                        -->
                         <img src="assets/chatbot-mockup.png" alt="Chatbot Mockup" class="mt-6 rounded-lg w-full h-auto object-cover">
                     </div>
 
@@ -217,11 +197,6 @@
                         <p class="text-gray-300">
                             Sync your calendar, clear your inbox, and align your reminders perfectly. We build custom systems to organize your digital life so you can focus on what matters.
                         </p>
-                         <!-- 
-                            IMAGE INSTRUCTION (productivity-dashboard.jpg):
-                            - Location: 'assets/productivity-dashboard.jpg'
-                            - Description: A clean, minimalist graphic showing icons for a calendar, email, and to-do list connected by elegant lines, representing seamless integration.
-                        -->
                         <img src="assets/productivity-dashboard.jpg" alt="Productivity Dashboard" class="mt-6 rounded-lg w-full h-auto object-cover">
                     </div>
                 </div>
@@ -231,11 +206,6 @@
         <!-- === PARALLAX SCROLL SECTION === -->
         <section class="parallax-container">
             <div class="parallax-sticky-box">
-                <!-- 
-                    IMAGE INSTRUCTION (parallax-background.jpg):
-                    - Location: 'assets/parallax-background.jpg'
-                    - Description: A beautiful, high-resolution photo. A cityscape at night, a satellite view of Earth, or an artistic shot of fiber optics would work well. It needs to look good when zoomed in.
-                -->
                 <div class="parallax-background" style="background-image: url('assets/parallax-background.jpg');"></div>
                 <div class="parallax-text-container" style="position: relative; height: 100%; width: 100%;">
                     <h2 id="parallax-text" class="parallax-text">AUTOMATE</h2>
@@ -291,7 +261,7 @@
                 <h2 class="text-4xl md:text-5xl font-bold">Ready to Join the Automation Revolution?</h2>
                 <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">Stop doing the repetitive work. Start building your future. Let's talk.</p>
                 <div class="mt-10">
-                    <a href="#" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-10 py-5 rounded-lg text-xl transition-transform hover:scale-105 inline-block">
+                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-10 py-5 rounded-lg text-xl transition-transform hover:scale-105 inline-block">
                         Book Your Free Consultation
                     </a>
                 </div>
@@ -310,23 +280,23 @@
                 <div>
                     <h4 class="font-semibold mb-4">Navigate</h4>
                     <ul class="space-y-2">
-                        <li><a href="#features" class="text-gray-400 hover:text-white">Services</a></li>
-                        <li><a href="#how-it-works" class="text-gray-400 hover:text-white">Our Process</a></li>
-                        <li><a href="#contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                        <li><a href="services.html" class="text-gray-400 hover:text-white">Services</a></li>
+                        <li><a href="process.html" class="text-gray-400 hover:text-white">Our Process</a></li>
+                        <li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Company</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="about.html" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li>
                     </ul>
                 </div>
                 <div>
                     <h4 class="font-semibold mb-4">Legal</h4>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                        <li><a href="privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li>
                     </ul>
                 </div>
             </div>
@@ -363,16 +333,17 @@
         window.addEventListener('scroll', () => {
             const rect = parallaxContainer.getBoundingClientRect();
             // Calculate scroll percentage within the container
-            // Starts at 0 when the top of the container hits the top of the viewport
-            // Ends at 1 when the bottom of the container hits the bottom of the viewport
             const scrollPercent = -rect.top / (parallaxContainer.scrollHeight - window.innerHeight);
 
             if (scrollPercent >= 0 && scrollPercent <= 1) {
                 // Increase scale significantly for a zoom-in effect.
-                // The scaling factor (e.g., 40) can be adjusted for more/less zoom.
-                const scale = 1 + scrollPercent * 40;
+                const scale = 1 + scrollPercent * 25;
+                
+                // Fade out the text as it scales up.
+                const opacity = 1 - scrollPercent * 1.5;
                 
                 parallaxText.style.transform = `translate(-50%, -50%) scale(${scale})`;
+                parallaxText.style.opacity = opacity < 0 ? 0 : opacity;
             }
         });
 
