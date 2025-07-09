@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKYNET - Automate Everything</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
+    <script src="https://unpkg.com/lucide-icons@latest/dist/umd/lucide.js"></script>
+
+
+    <style>
+        /* Custom styles for the modern look and feel */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #F3F4F6; /* Gray-100 */
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        /* Gradient text effect */
+        .gradient-text {
+            background: linear-gradient(90deg, #38bdf8, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        /* Parallax container */
+        .parallax-container {
+            height: 300vh; /* Adjust height to control scroll duration */
+            position: relative;
+        }
+
+        .parallax-sticky-box {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+        }
+        
+        .parallax-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Creates the parallax effect */
+            z-index: -1;
+        }
+
+        .parallax-text {
+            font-size: 10vw;
+            font-weight: 900;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            will-change: transform; /* Performance optimization */
+            text-align: center;
+        }
+        
+        .feature-card {
+            background-color: rgba(31, 41, 55, 0.3); /* semi-transparent gray-800 */
+            border: 1px solid rgba(75, 85, 99, 0.5); /* gray-600 */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: #38bdf8; /* sky-400 */
+        }
+
+        /* Custom animation for fade-in on scroll */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in-section {
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+            animation-timeline: view();
+            animation-range: entry;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- === HEADER === -->
+    <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold tracking-wider">
+                    <a href="#">SKYNET</a>
+                </div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="hover:text-sky-400 transition-colors">Services</a>
+                    <a href="#how-it-works" class="hover:text-sky-400 transition-colors">Our Process</a>
+                    <a href="#contact" class="hover:text-sky-400 transition-colors">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="#" class="hidden sm:block text-sm hover:text-sky-400 transition-colors">Sign In</a>
+                    <a href="#contact" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Book a Call</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- === HERO SECTION === -->
+        <section class="relative h-screen flex items-center justify-center text-center overflow-hidden">
+            <!-- 
+                IMAGE INSTRUCTION (hero-background.jpg):
+                - Location: 'assets/hero-background.jpg'
+                - Description: A high-quality, futuristic background image. Think abstract neural networks, glowing data streams, or a subtle digital circuit pattern. It should be dark to make the white text pop.
+            -->
+            <div class="absolute inset-0 bg-cover bg-center z-0" style="background-image: url('https://placehold.co/1920x1080/000000/FFFFFF?text=Futuristic+Background');">
+                <div class="absolute inset-0 bg-black opacity-60"></div>
+            </div>
+            
+            <div class="relative z-10 px-4">
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-tight">
+                    Automate Your <span class="gradient-text">Entire</span> World
+                </h1>
+                <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-300">
+                    From social media and content creation to your daily tasks, SKYNET brings the power of intelligent automation to every corner of your digital life.
+                </p>
+                <div class="mt-10 flex justify-center gap-4">
+                    <a href="#contact" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-8 py-4 rounded-lg text-lg transition-transform hover:scale-105">Book a Free Consultation</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- === FEATURES SECTION === -->
+        <section id="features" class="py-20 md:py-32 bg-black">
+            <div class="container mx-auto px-6">
+                <div class="text-center mb-16 fade-in-section">
+                    <h2 class="text-4xl md:text-5xl font-bold">The Future of Automation is Here</h2>
+                    <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">SKYNET can automate anything you can imagine. Here's a glimpse of what we can build for you.</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
+                    <!-- Feature 1: Social Media -->
+                    <div class="feature-card rounded-2xl p-8 fade-in-section">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/20 mb-6">
+                            <i data-lucide="share-2" class="w-8 h-8 text-sky-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Social Media Autopilot</h3>
+                        <p class="text-gray-300">
+                            Automatically reply to DMs and comments, schedule and upload content across Instagram, Twitter, Facebook, and YouTube. Never miss an engagement opportunity.
+                        </p>
+                        <!-- 
+                            IMAGE INSTRUCTION (social-automation.gif):
+                            - Location: 'assets/social-automation.gif'
+                            - Description: A sleek, animated GIF showing social media icons (Insta, FB, etc.) with glowing lines connecting to a central brain or hub icon, symbolizing automation.
+                        -->
+                        <img src="https://placehold.co/800x600/1F2937/FFFFFF?text=Social+Automation+Graphic" alt="Social Media Automation" class="mt-6 rounded-lg w-full h-auto object-cover">
+                    </div>
+
+                    <!-- Feature 2: AI Content Creation -->
+                    <div class="feature-card rounded-2xl p-8 fade-in-section">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-500/20 mb-6">
+                            <i data-lucide="clapperboard" class="w-8 h-8 text-purple-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">AI-Powered Content Creation</h3>
+                        <p class="text-gray-300">
+                            Transform a single picture into a captivating video of that person speaking. Generate dynamic content from static images effortlessly.
+                        </p>
+                        <!-- 
+                            IMAGE INSTRUCTION (ai-video.jpg):
+                            - Location: 'assets/ai-video.jpg'
+                            - Description: A split-screen image. Left side: a professional headshot. Right side: a still from a generated video of the same person speaking, with subtle wave-form overlays.
+                        -->
+                        <img src="https://placehold.co/800x600/1F2937/FFFFFF?text=AI+Video+Generation" alt="AI Content Creation" class="mt-6 rounded-lg w-full h-auto object-cover">
+                    </div>
+                    
+                    <!-- Feature 3: Chatbots & PWAs -->
+                    <div class="feature-card rounded-2xl p-8 fade-in-section">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-pink-500/20 mb-6">
+                             <i data-lucide="app-window" class="w-8 h-8 text-pink-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Websites & Apps with AI Brains</h3>
+                        <p class="text-gray-300">
+                           Go beyond simple chat. We build fully-featured websites and Progressive Web Apps (PWAs) with powerful, integrated chatbots at their core, creating immersive user experiences.
+                        </p>
+                        <!-- 
+                            IMAGE INSTRUCTION (chatbot-mockup.png):
+                            - Location: 'assets/chatbot-mockup.png'
+                            - Description: A high-resolution smartphone mockup (PNG with transparent background) showing a sleek, modern chat interface within a beautiful website design.
+                        -->
+                        <img src="https://placehold.co/800x600/1F2937/FFFFFF?text=Website+with+Chatbot" alt="Chatbot Mockup" class="mt-6 rounded-lg w-full h-auto object-cover">
+                    </div>
+
+                    <!-- Feature 4: Productivity -->
+                    <div class="feature-card rounded-2xl p-8 fade-in-section">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-emerald-500/20 mb-6">
+                            <i data-lucide="calendar-check" class="w-8 h-8 text-emerald-400"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Organized Life & Tasks</h3>
+                        <p class="text-gray-300">
+                            Sync your calendar, clear your inbox, and align your reminders perfectly. We build custom systems to organize your digital life so you can focus on what matters.
+                        </p>
+                         <!-- 
+                            IMAGE INSTRUCTION (productivity-dashboard.jpg):
+                            - Location: 'assets/productivity-dashboard.jpg'
+                            - Description: A clean, minimalist graphic showing icons for a calendar, email, and to-do list connected by elegant lines, representing seamless integration.
+                        -->
+                        <img src="https://placehold.co/800x600/1F2937/FFFFFF?text=Productivity+Graphic" alt="Productivity Dashboard" class="mt-6 rounded-lg w-full h-auto object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- === PARALLAX SCROLL SECTION === -->
+        <section class="parallax-container">
+            <div class="parallax-sticky-box">
+                <!-- 
+                    IMAGE INSTRUCTION (parallax-background.jpg):
+                    - Location: 'assets/parallax-background.jpg'
+                    - Description: A beautiful, high-resolution photo. A cityscape at night, a satellite view of Earth, or an artistic shot of fiber optics would work well. It needs to look good when zoomed in.
+                -->
+                <div class="parallax-background" style="background-image: url('https://placehold.co/1920x1080/111827/FFFFFF?text=Global+Connections');"></div>
+                <div class="parallax-text-container" style="position: relative; height: 100%; width: 100%;">
+                    <h2 id="parallax-text" class="parallax-text">AUTOMATE</h2>
+                </div>
+            </div>
+        </section>
+        
+        <!-- === POST-PARALLAX SECTION / HOW IT WORKS === -->
+        <section id="how-it-works" class="py-20 md:py-32 bg-black text-center">
+            <div class="container mx-auto px-6">
+                 <h2 class="text-5xl md:text-6xl font-bold leading-tight fade-in-section">
+                    Your Vision, <span class="gradient-text">Automated</span>.
+                </h2>
+                <p class="mt-6 max-w-3xl mx-auto text-lg text-gray-400 fade-in-section">
+                    Our process is collaborative, transparent, and built around your unique goals.
+                </p>
+
+                <div class="mt-20 grid md:grid-cols-3 gap-10 text-left">
+                    <!-- Step 1 -->
+                    <div class="border-t-2 border-sky-500 pt-6 fade-in-section">
+                        <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="phone" class="w-8 h-8 text-sky-400"></i>
+                            <div class="text-sky-400 text-2xl font-bold">01</div>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Book a Discovery Call</h3>
+                        <p class="text-gray-400">It all starts with a conversation. We'll discuss your goals, challenges, and ideas to map out the perfect automation strategy for you.</p>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="border-t-2 border-purple-500 pt-6 fade-in-section">
+                         <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="drafting-compass" class="w-8 h-8 text-purple-400"></i>
+                            <div class="text-purple-400 text-2xl font-bold">02</div>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Custom Solution Design</h3>
+                        <p class="text-gray-400">We design and build a bespoke automation solution tailored specifically to your needs, from social media workflows to custom applications.</p>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="border-t-2 border-pink-500 pt-6 fade-in-section">
+                         <div class="flex items-center gap-4 mb-4">
+                            <i data-lucide="rocket" class="w-8 h-8 text-pink-400"></i>
+                            <div class="text-pink-400 text-2xl font-bold">03</div>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2">Launch & Support</h3>
+                        <p class="text-gray-400">We deploy your solution and provide ongoing support to ensure it runs flawlessly, freeing you up to focus on what you do best.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- === FINAL CTA SECTION === -->
+        <section id="contact" class="py-20 md:py-32">
+            <div class="container mx-auto px-6 text-center fade-in-section">
+                <h2 class="text-4xl md:text-5xl font-bold">Ready to Join the Automation Revolution?</h2>
+                <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">Stop doing the repetitive work. Start building your future. Let's talk.</p>
+                <div class="mt-10">
+                    <a href="#" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-10 py-5 rounded-lg text-xl transition-transform hover:scale-105 inline-block">
+                        Book Your Free Consultation
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- === FOOTER === -->
+    <footer class="bg-gray-900/50 border-t border-gray-800">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">SKYNET</h3>
+                    <p class="text-gray-400">Your Vision, Automated.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Navigate</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-gray-400 hover:text-white">Services</a></li>
+                        <li><a href="#how-it-works" class="text-gray-400 hover:text-white">Our Process</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center">
+                <p class="text-gray-500">&copy; 2025 SKYNET. All rights reserved.</p>
+                <div class="flex space-x-4 mt-4 sm:mt-0">
+                    <a href="#" class="text-gray-500 hover:text-white"><i data-lucide="twitter"></i></a>
+                    <a href="#" class="text-gray-500 hover:text-white"><i data-lucide="instagram"></i></a>
+                    <a href="#" class="text-gray-500 hover:text-white"><i data-lucide="facebook"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // --- Header background on scroll ---
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('bg-black/80', 'backdrop-blur-sm', 'border-b', 'border-gray-800');
+            } else {
+                header.classList.remove('bg-black/80', 'backdrop-blur-sm', 'border-b', 'border-gray-800');
+            }
+        });
+
+        // --- Parallax text scroll effect ---
+        const parallaxText = document.getElementById('parallax-text');
+        const parallaxContainer = document.querySelector('.parallax-container');
+
+        window.addEventListener('scroll', () => {
+            const rect = parallaxContainer.getBoundingClientRect();
+            // Calculate scroll percentage within the container
+            // Starts at 0 when the top of the container hits the top of the viewport
+            // Ends at 1 when the bottom of the container hits the bottom of the viewport
+            const scrollPercent = -rect.top / (parallaxContainer.scrollHeight - window.innerHeight);
+
+            if (scrollPercent >= 0 && scrollPercent <= 1) {
+                // Increase scale significantly for a zoom-in effect.
+                // The scaling factor (e.g., 40) can be adjusted for more/less zoom.
+                const scale = 1 + scrollPercent * 40;
+                
+                parallaxText.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            }
+        });
+
+    </script>
+</body>
+</html>
