@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Process - SKYNET Automation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide-icons@latest/dist/umd/lucide.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #F3F4F6; }
+        .gradient-text { background: linear-gradient(90deg, #38bdf8, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
+        .step-card { background-color: rgba(31, 41, 55, 0.3); border: 1px solid rgba(75, 85, 99, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- === HEADER === -->
+    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-gray-800">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold tracking-wider"><a href="index.html">SKYNET</a></div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="services.html" class="hover:text-sky-400 transition-colors">Services</a>
+                    <a href="process.html" class="text-sky-400 transition-colors">Our Process</a>
+                    <a href="contact.html" class="hover:text-sky-400 transition-colors">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="signin.html" class="hidden sm:block text-sm hover:text-sky-400 transition-colors">Sign In</a>
+                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Book a Call</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- === HERO SECTION === -->
+        <section class="py-24 md:py-32 text-center bg-black">
+            <div class="container mx-auto px-6">
+                <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter">Our <span class="gradient-text">Process</span></h1>
+                <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-300">A collaborative journey from idea to implementation, ensuring your automation is a perfect fit.</p>
+            </div>
+        </section>
+
+        <!-- === PROCESS STEPS === -->
+        <section class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto space-y-16">
+                    <!-- Step 1 -->
+                    <div class="md:flex items-center gap-12">
+                        <div class="md:w-1/3 text-center md:text-left mb-6 md:mb-0">
+                            <div class="text-6xl font-black gradient-text">01</div>
+                            <h3 class="text-3xl font-bold mt-2">Discovery & Strategy</h3>
+                        </div>
+                        <div class="md:w-2/3 step-card p-8 rounded-2xl">
+                            <p class="text-lg text-gray-300">It all begins with a discovery call. This isn't just a requirements-gathering session; it's a deep dive into your workflow. We listen to understand your primary needs and identify hidden pain points where automation can deliver the most value. Together, we map out a clear strategy for success.</p>
+                        </div>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="md:flex flex-row-reverse items-center gap-12">
+                        <div class="md:w-1/3 text-center md:text-right mb-6 md:mb-0">
+                            <div class="text-6xl font-black gradient-text">02</div>
+                            <h3 class="text-3xl font-bold mt-2">Design & Development</h3>
+                        </div>
+                        <div class="md:w-2/3 step-card p-8 rounded-2xl">
+                            <p class="text-lg text-gray-300">Based on your timeline and our strategic plan, we get to work. Our development is agile and transparent. We build your custom automation solution, providing you with updates and seeking feedback along the way to ensure the final product is simple, powerful, and perfectly aligned with your goals.</p>
+                        </div>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="md:flex items-center gap-12">
+                        <div class="md:w-1/3 text-center md:text-left mb-6 md:mb-0">
+                            <div class="text-6xl font-black gradient-text">03</div>
+                            <h3 class="text-3xl font-bold mt-2">Launch & Support</h3>
+                        </div>
+                        <div class="md:w-2/3 step-card p-8 rounded-2xl">
+                            <p class="text-lg text-gray-300">We handle the full deployment and integration of your new automation. But our partnership doesn't end at launch. We provide comprehensive support to handle any queries or suggestions, ensuring your system runs smoothly and continues to deliver value long-term with complete satisfaction.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- === CTA SECTION === -->
+        <section class="py-24">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-4xl md:text-5xl font-bold">Ready to start your automation journey?</h2>
+                <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">Let's begin with a simple conversation.</p>
+                <div class="mt-10">
+                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-10 py-5 rounded-lg text-xl transition-transform hover:scale-105 inline-block">Book Your Discovery Call</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- === FOOTER === -->
+    <footer class="bg-gray-900/50 border-t border-gray-800">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div><h3 class="text-xl font-bold mb-4">SKYNET</h3><p class="text-gray-400">Your Vision, Automated.</p></div>
+                <div><h4 class="font-semibold mb-4">Navigate</h4><ul class="space-y-2"><li><a href="services.html" class="text-gray-400 hover:text-white">Services</a></li><li><a href="process.html" class="text-gray-400 hover:text-white">Our Process</a></li><li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li></ul></div>
+                <div><h4 class="font-semibold mb-4">Company</h4><ul class="space-y-2"><li><a href="about.html" class="text-gray-400 hover:text-white">About Us</a></li><li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li></ul></div>
+                <div><h4 class="font-semibold mb-4">Legal</h4><ul class="space-y-2"><li><a href="privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li><li><a href="terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li></ul></div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center"><p class="text-gray-500">&copy; 2025 SKYNET. All rights reserved.</p><div class="flex space-x-4 mt-4 sm:mt-0"><a href="#" class="text-gray-500 hover:text-white"><i data-lucide="twitter"></i></a><a href="#" class="text-gray-500 hover:text-white"><i data-lucide="instagram"></i></a><a href="#" class="text-gray-500 hover:text-white"><i data-lucide="facebook"></i></a></div></div>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - SKYNET Automation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide-icons@latest/dist/umd/lucide.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #F3F4F6; }
+        .gradient-text { background: linear-gradient(90deg, #38bdf8, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
+        .form-input { background-color: rgba(31, 41, 55, 0.5); border: 1px solid #4b5563; }
+        .form-input:focus { border-color: #38bdf8; outline: none; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.4); }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- === HEADER === -->
+    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-gray-800">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold tracking-wider"><a href="index.html">SKYNET</a></div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="services.html" class="hover:text-sky-400 transition-colors">Services</a>
+                    <a href="process.html" class="hover:text-sky-400 transition-colors">Our Process</a>
+                    <a href="contact.html" class="hover:text-sky-400 transition-colors">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="signin.html" class="text-sky-400 transition-colors">Sign In</a>
+                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Book a Call</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex items-center justify-center min-h-screen py-20">
+        <div class="container mx-auto px-6">
+            <div class="max-w-md mx-auto bg-gray-900/50 border border-gray-800 rounded-2xl shadow-2xl shadow-sky-500/10 p-8">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold gradient-text">Client Portal</h1>
+                    <p class="text-gray-400 mt-2">Access your automation workflows.</p>
+                </div>
+                <form action="#" method="POST" class="space-y-6">
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
+                        <div class="mt-1">
+                            <input id="username" name="username" type="text" required class="form-input block w-full rounded-md py-3 px-4 shadow-sm text-lg">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+                        <div class="mt-1">
+                            <input id="password" name="password" type="password" required class="form-input block w-full rounded-md py-3 px-4 shadow-sm text-lg">
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-sky-400 hover:text-sky-300">Forgot your password?</a>
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-sky-500 hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors">
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>

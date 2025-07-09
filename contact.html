@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - SKYNET Automation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide-icons@latest/dist/umd/lucide.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #F3F4F6; }
+        .gradient-text { background: linear-gradient(90deg, #38bdf8, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- === HEADER === -->
+    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-gray-800">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold tracking-wider"><a href="index.html">SKYNET</a></div>
+                <nav class="hidden md:flex items-center space-x-8">
+                    <a href="services.html" class="hover:text-sky-400 transition-colors">Services</a>
+                    <a href="process.html" class="hover:text-sky-400 transition-colors">Our Process</a>
+                    <a href="contact.html" class="text-sky-400 transition-colors">Contact</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="signin.html" class="hidden sm:block text-sm hover:text-sky-400 transition-colors">Sign In</a>
+                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Book a Call</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- === HERO SECTION === -->
+        <section class="py-24 md:py-32 text-center bg-black">
+            <div class="container mx-auto px-6">
+                <h1 class="text-5xl md:text-7xl font-black uppercase tracking-tighter">Let's <span class="gradient-text">Connect</span></h1>
+                <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-300">Ready to automate your world? We're here to help. Schedule a free, no-obligation discovery call to get started.</p>
+            </div>
+        </section>
+
+        <!-- === CALENDLY EMBED SECTION === -->
+        <section class="py-20">
+            <div class="container mx-auto px-6">
+                <div class="max-w-4xl mx-auto bg-gray-900/50 border border-gray-800 rounded-2xl p-4 md:p-6 shadow-2xl shadow-sky-500/10">
+                    <!-- Calendly inline widget begin -->
+                    <div class="calendly-inline-widget" data-url="https://calendly.com/rayray_1?fbclid=PAQ0xDSwLaEpFleHRuA2FlbQIxMAABp1KKp7f9f_m4QOVYhBydjUM804cKIgJq5YwwtBoIhYBJjEdjSEaALEeuvrQw_aem_AVw-3lEHokX6l0I3Sqb5QA&background_color=000000&text_color=ffffff&primary_color=38bdf8" style="min-width:320px;height:700px;"></div>
+                    <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+                    <!-- Calendly inline widget end -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- === FOOTER === -->
+    <footer class="bg-gray-900/50 border-t border-gray-800">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div><h3 class="text-xl font-bold mb-4">SKYNET</h3><p class="text-gray-400">Your Vision, Automated.</p></div>
+                <div><h4 class="font-semibold mb-4">Navigate</h4><ul class="space-y-2"><li><a href="services.html" class="text-gray-400 hover:text-white">Services</a></li><li><a href="process.html" class="text-gray-400 hover:text-white">Our Process</a></li><li><a href="contact.html" class="text-gray-400 hover:text-white">Contact</a></li></ul></div>
+                <div><h4 class="font-semibold mb-4">Company</h4><ul class="space-y-2"><li><a href="about.html" class="text-gray-400 hover:text-white">About Us</a></li><li><a href="blog.html" class="text-gray-400 hover:text-white">Blog</a></li></ul></div>
+                <div><h4 class="font-semibold mb-4">Legal</h4><ul class="space-y-2"><li><a href="privacy.html" class="text-gray-400 hover:text-white">Privacy Policy</a></li><li><a href="terms.html" class="text-gray-400 hover:text-white">Terms of Service</a></li></ul></div>
+            </div>
+            <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col sm:flex-row justify-between items-center"><p class="text-gray-500">&copy; 2025 SKYNET. All rights reserved.</p><div class="flex space-x-4 mt-4 sm:mt-0"><a href="#" class="text-gray-500 hover:text-white"><i data-lucide="twitter"></i></a><a href="#" class="text-gray-500 hover:text-white"><i data-lucide="instagram"></i></a><a href="#" class="text-gray-500 hover:text-white"><i data-lucide="facebook"></i></a></div></div>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+</body>
+</html>
