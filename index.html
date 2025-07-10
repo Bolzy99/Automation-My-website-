@@ -14,7 +14,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
 
@@ -25,6 +24,20 @@
             background-color: #000000;
             color: #F3F4F6; /* Gray-100 */
             overflow-x: hidden; /* Prevent horizontal scroll */
+            position: relative; /* Needed for particle canvas positioning */
+            /* Cursor reverted to default */
+            cursor: auto;
+        }
+
+        /* Particle Canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* Below background image */
+            pointer-events: none; /* Allow clicks through canvas */
         }
 
         /* Gradient text effect */
@@ -74,17 +87,41 @@
             text-align: center;
         }
         
+        /* Feature Card Enhancements */
         .feature-card {
             background-color: rgba(31, 41, 55, 0.3); /* semi-transparent gray-800 */
             border: 1px solid rgba(75, 85, 99, 0.5); /* gray-600 */
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             transition: all 0.3s ease-in-out;
+            transform-style: preserve-3d; /* For 3D tilt effect */
+            perspective: 1000px; /* For 3D tilt effect */
+            position: relative; /* For pseudo-element glow */
+            overflow: hidden; /* Hide overflow for glow */
         }
 
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02);
             border-color: #38bdf8; /* sky-400 */
+            box-shadow: 0 0 30px rgba(56, 189, 248, 0.5); /* Subtle glow */
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .feature-card:hover::before {
+            opacity: 1;
         }
 
         /* Custom animation for fade-in on scroll */
@@ -99,15 +136,66 @@
             animation-timeline: view();
             animation-range: entry;
         }
+
+        /* Floating effect */
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Magnetic button styles */
+        .magnetic-button {
+            position: relative;
+            display: inline-block;
+            overflow: hidden;
+            will-change: transform;
+            transition: transform 0.3s ease-out;
+        }
+
+        .magnetic-button .button-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .magnetic-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .magnetic-button:hover::before {
+            opacity: 1;
+        }
+
+        /* Ensure hero heading stays on one line */
+        #hero-main-heading {
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body class="antialiased">
+
+    <!-- Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
 
     <!-- === HEADER === -->
     <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="text-2xl font-bold tracking-wider">
+                <div class="text-2xl font-bold tracking-wider float">
                     <a href="index.html">SKYNET</a>
                 </div>
                 <nav class="hidden md:flex items-center space-x-8">
@@ -117,7 +205,9 @@
                 </nav>
                 <div class="flex items-center space-x-4">
                     <a href="signin.html" class="hidden sm:block text-sm hover:text-sky-400 transition-colors">Sign In</a>
-                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Book a Call</a>
+                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors magnetic-button">
+                        <span class="button-content">Book a Call</span>
+                    </a>
                 </div>
             </div>
         </div>
@@ -131,14 +221,16 @@
             </div>
             
             <div class="relative z-10 px-4">
-                <h1 class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-tight">
+                <h1 id="hero-main-heading" class="text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-tighter leading-tight">
                     Automate Your <span class="gradient-text">Entire</span> World
                 </h1>
                 <p class="mt-6 max-w-3xl mx-auto text-lg md:text-xl text-gray-300">
                     From social media and content creation to your daily tasks, SKYNET brings the power of intelligent automation to every corner of your digital life.
                 </p>
                 <div class="mt-10 flex justify-center gap-4">
-                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-8 py-4 rounded-lg text-lg transition-transform hover:scale-105">Book a Free Consultation</a>
+                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-8 py-4 rounded-lg text-lg transition-transform hover:scale-105 magnetic-button">
+                        <span class="button-content">Book a Free Consultation</span>
+                    </a>
                 </div>
             </div>
         </section>
@@ -154,7 +246,7 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
                     <!-- Feature 1: Social Media -->
                     <div class="feature-card rounded-2xl p-8 fade-in-section">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/20 mb-6">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-sky-500/20 mb-6 float">
                             <i data-lucide="share-2" class="w-8 h-8 text-sky-400"></i>
                         </div>
                         <h3 class="text-2xl font-bold mb-4">Social Media Autopilot</h3>
@@ -166,7 +258,7 @@
 
                     <!-- Feature 2: AI Content Creation -->
                     <div class="feature-card rounded-2xl p-8 fade-in-section">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-500/20 mb-6">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-purple-500/20 mb-6 float">
                             <i data-lucide="clapperboard" class="w-8 h-8 text-purple-400"></i>
                         </div>
                         <h3 class="text-2xl font-bold mb-4">AI-Powered Content Creation</h3>
@@ -178,7 +270,7 @@
                     
                     <!-- Feature 3: Chatbots & PWAs -->
                     <div class="feature-card rounded-2xl p-8 fade-in-section">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-pink-500/20 mb-6">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-pink-500/20 mb-6 float">
                              <i data-lucide="app-window" class="w-8 h-8 text-pink-400"></i>
                         </div>
                         <h3 class="text-2xl font-bold mb-4">Websites & Apps with AI Brains</h3>
@@ -190,7 +282,7 @@
 
                     <!-- Feature 4: Productivity -->
                     <div class="feature-card rounded-2xl p-8 fade-in-section">
-                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-emerald-500/20 mb-6">
+                        <div class="flex items-center justify-center h-16 w-16 rounded-full bg-emerald-500/20 mb-6 float">
                             <i data-lucide="calendar-check" class="w-8 h-8 text-emerald-400"></i>
                         </div>
                         <h3 class="text-2xl font-bold mb-4">Organized Life & Tasks</h3>
@@ -261,8 +353,8 @@
                 <h2 class="text-4xl md:text-5xl font-bold">Ready to Join the Automation Revolution?</h2>
                 <p class="mt-4 text-lg text-gray-400 max-w-2xl mx-auto">Stop doing the repetitive work. Start building your future. Let's talk.</p>
                 <div class="mt-10">
-                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-10 py-5 rounded-lg text-xl transition-transform hover:scale-105 inline-block">
-                        Book Your Free Consultation
+                    <a href="contact.html" class="bg-sky-500 hover:bg-sky-600 text-white font-bold px-10 py-5 rounded-lg text-xl transition-transform hover:scale-105 magnetic-button">
+                        <span class="button-content">Book Your Free Consultation</span>
                     </a>
                 </div>
             </div>
@@ -326,7 +418,7 @@
             }
         });
 
-        // --- Parallax text scroll effect ---
+        // --- Parallax text scroll effect (UNCHANGED as requested) ---
         const parallaxText = document.getElementById('parallax-text');
         const parallaxContainer = document.querySelector('.parallax-container');
 
@@ -345,6 +437,170 @@
         }
 
         window.addEventListener('scroll', animateParallax);
+
+
+        // --- Animated Particle Background ---
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const numParticles = 100;
+        const particleSize = 2;
+        const particleSpeed = 0.5;
+        const maxDistance = 100; // Max distance for lines between particles
+
+        // Resize canvas to fill window
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Particle class
+        class Particle {
+            constructor(x, y) {
+                this.x = x || Math.random() * canvas.width;
+                this.y = y || Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * particleSpeed;
+                this.vy = (Math.random() - 0.5) * particleSpeed;
+                this.radius = Math.random() * particleSize + 0.5;
+                this.opacity = Math.random();
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Wrap particles around the screen
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                // Fade in/out
+                this.opacity += (Math.random() - 0.5) * 0.02;
+                if (this.opacity > 1) this.opacity = 1;
+                if (this.opacity < 0) this.opacity = 0;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(56, 189, 248, ${this.opacity})`; /* Sky-400 color */
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < numParticles; i++) {
+            particles.push(new Particle());
+        }
+
+        let mouse = { x: null, y: null, radius: 150 }; // Mouse influence radius
+
+        window.addEventListener('mousemove', (event) => {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        // Animation loop for particles
+        function animateParticles() {
+            requestAnimationFrame(animateParticles);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                p.update();
+                p.draw();
+
+                // Connect particles with lines
+                for (let j = i; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const distance = Math.sqrt((p.x - p2.x)**2 + (p.y - p2.y)**2);
+
+                    if (distance < maxDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${1 - (distance / maxDistance)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+
+                // Mouse interaction
+                if (mouse.x && mouse.y) {
+                    const dx = mouse.x - p.x;
+                    const dy = mouse.y - p.y;
+                    const distToMouse = Math.sqrt(dx*dx + dy*dy);
+
+                    if (distToMouse < mouse.radius) {
+                        const forceDirectionX = dx / distToMouse;
+                        const forceDirectionY = dy / distToMouse;
+                        const force = (mouse.radius - distToMouse) / mouse.radius;
+                        p.x -= forceDirectionX * force * 0.5; // Push away from mouse
+                        p.y -= forceDirectionY * force * 0.5;
+                    }
+                }
+            }
+        }
+        animateParticles();
+
+
+        // --- Magnetic Button Effects ---
+        document.querySelectorAll('.magnetic-button').forEach(button => {
+            button.addEventListener('mousemove', (e) => {
+                const rect = button.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const moveX = (x - centerX) * 0.15; // Adjust sensitivity
+                const moveY = (y - centerY) * 0.15; // Adjust sensitivity
+
+                button.style.transform = `translate(${moveX}px, ${moveY}px)`;
+
+                // For the radial gradient glow effect
+                button.style.setProperty('--mouse-x', `${x}px`);
+                button.style.setProperty('--mouse-y', `${y}px`);
+            });
+
+            button.addEventListener('mouseleave', () => {
+                button.style.transform = `translate(0, 0)`;
+            });
+        });
+
+        // --- Interactive Feature Cards (Tilt and Glow) ---
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+
+                const rotateX = ((y - centerY) / centerY) * -5; // Max tilt 5 degrees
+                const rotateY = ((x - centerX) / centerX) * 5; // Max tilt 5 degrees
+
+                card.style.transform = `translateY(-5px) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+
+                // For the radial gradient glow effect
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = `translateY(-5px) perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.02)`;
+                card.style.removeProperty('--mouse-x');
+                card.style.removeProperty('--mouse-y');
+            });
+        });
 
     </script>
 </body>
