@@ -333,7 +333,7 @@
         function animateParallax() {
           const sectionTop = parallaxContainer.offsetTop;
           const sectionHeight = parallaxContainer.offsetHeight;
-          const scrollY = window.scrollY + window.innerHeight / 2;
+          const scrollY = window.scrollY + window.innerHeight / 1;
           const scrollProgress = (scrollY - sectionTop) / sectionHeight;
 
           if (scrollProgress >= 0 && scrollProgress <= 1) {
