@@ -330,22 +330,22 @@
         const parallaxText = document.getElementById('parallax-text');
         const parallaxContainer = document.querySelector('.parallax-container');
 
-        window.addEventListener('scroll', () => {
-            const rect = parallaxContainer.getBoundingClientRect();
-            // Calculate scroll percentage within the container
-            const scrollPercent = -rect.top / (parallaxContainer.scrollHeight - window.innerHeight);
+        function animateParallax() {
+          const sectionTop = parallaxContainer.offsetTop;
+          const sectionHeight = parallaxContainer.offsetHeight;
+          const scrollY = window.scrollY + window.innerHeight / 2;
+          const scrollProgress = (scrollY - sectionTop) / sectionHeight;
 
-            if (scrollPercent >= 0 && scrollPercent <= 1) {
-                // Increase scale significantly for a zoom-in effect.
-                const scale = 1 + scrollPercent * 25;
-                
-                // Fade out the text as it scales up.
-                const opacity = 1 - scrollPercent * 1.5;
-                
-                parallaxText.style.transform = `translate(-50%, -50%) scale(${scale})`;
-                parallaxText.style.opacity = opacity < 0 ? 0 : opacity;
-            }
-        });
+          if (scrollProgress >= 0 && scrollProgress <= 1) {
+            const scale = 1 + scrollProgress * 25;
+            const opacity = 1 - scrollProgress * 1.5;
+            parallaxText.style.transform = `translate(-50%, -50%) scale(${scale})`;
+            parallaxText.style.opacity = opacity < 0 ? 0 : opacity;
+          }
+        }
+
+        window.addEventListener('scroll', animateParallax);
+      });
 
     </script>
 </body>
