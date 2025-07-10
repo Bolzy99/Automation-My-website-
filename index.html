@@ -38,7 +38,7 @@
         
         /* Parallax container */
         .parallax-container {
-            height: 180vh; /* Adjust height to control scroll duration */
+            height: 150vh; /* Adjust height to control scroll duration */
             position: relative;
         }
 
@@ -337,8 +337,8 @@
           const scrollProgress = (scrollY - sectionTop) / sectionHeight;
 
           if (scrollProgress >= 0 && scrollProgress <= 1) {
-            const scale = 1 + scrollProgress * 15;
-            const opacity = 1 - scrollProgress * 0.8;
+            const scale = 1 + scrollProgress * 12;
+            const opacity = 1 - scrollProgress * 0.5;
             parallaxText.style.transform = `translate(-50%, -50%) scale(${scale})`;
             parallaxText.style.opacity = opacity < 0 ? 0 : opacity;
           }
