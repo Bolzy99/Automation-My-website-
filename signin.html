@@ -10,7 +10,7 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #000000; color: #F3F4F6; }
         .gradient-text { background: linear-gradient(90deg, #38bdf8, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
-        .form-input { background-color: rgba(31, 41, 55, 0.5); border: 1px solid #4b5563; }
+        .form-input { background-color: rgba(31, 41, 55, 0.5); border: 1px solid #4b5563; transition: border-color 0.2s; }
         .form-input:focus { border-color: #38bdf8; outline: none; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.4); }
     </style>
 </head>
@@ -41,7 +41,7 @@
                     <h1 class="text-3xl font-bold gradient-text">Client Portal</h1>
                     <p class="text-gray-400 mt-2">Access your automation workflows.</p>
                 </div>
-                <form action="#" method="POST" class="space-y-6">
+                <form id="login-form" class="space-y-6">
                     <div>
                         <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
                         <div class="mt-1">
@@ -54,6 +54,10 @@
                             <input id="password" name="password" type="password" required class="form-input block w-full rounded-md py-3 px-4 shadow-sm text-lg">
                         </div>
                     </div>
+                    
+                    <!-- Error Message Display -->
+                    <div id="error-message" class="text-red-400 text-sm hidden"></div>
+
                     <div class="flex items-center justify-between">
                         <div class="text-sm">
                             <a href="#" class="font-medium text-sky-400 hover:text-sky-300">Forgot your password?</a>
@@ -69,6 +73,32 @@
         </div>
     </main>
 
-    <script>lucide.createIcons();</script>
+    <script>
+        lucide.createIcons();
+
+        // --- Login Form Logic ---
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+
+        loginForm.addEventListener('submit', function(event) {
+            // Prevent the form from submitting the traditional way
+            event.preventDefault();
+
+            // Get user input
+            const usernameInput = document.getElementById('username').value;
+            const passwordInput = document.getElementById('password').value;
+
+            // Check against your hardcoded credentials for testing
+            if (usernameInput === 'bolzy99' && passwordInput === 'SkyFall@1010') {
+                // If credentials are correct, redirect to the dashboard
+                errorMessage.classList.add('hidden');
+                window.location.href = 'dashboard.html';
+            } else {
+                // If incorrect, show an error message
+                errorMessage.textContent = 'Invalid username or password. Please try again.';
+                errorMessage.classList.remove('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
