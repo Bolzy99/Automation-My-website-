@@ -89,9 +89,10 @@
             const passwordInput = document.getElementById('password').value;
 
             // Check against your hardcoded credentials for testing
-            if (usernameInput === 'bolzy99' && passwordInput === 'SkyFall@1010') {
+            if (usernameInput === 'bolzy' && passwordInput === 'skyfall@1010') {
                 // If credentials are correct, redirect to the dashboard
                 errorMessage.classList.add('hidden');
+                // This line sends the user to the dashboard page.
                 window.location.href = 'dashboard.html';
             } else {
                 // If incorrect, show an error message
