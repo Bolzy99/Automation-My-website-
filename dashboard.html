@@ -116,14 +116,12 @@
             connectButton.addEventListener('click', () => {
                 // This is the URL you construct to start the login flow.
                 // Replace YOUR_APP_ID and YOUR_REDIRECT_URI with the values from your Meta Dev App.
-                const appId = 'YOUR_INSTAGRAM_APP_ID'; 
-                const redirectUri = 'YOUR_VALID_OAUTH_REDIRECT_URI';
-                const scope = 'user_profile,user_media'; // Permissions you are requesting
-                
-                const authUrl = `https://api.instagram.com/oauth/authorize?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
+                const appId = 'YOUR_FACEBOOK_APP_ID'; 
+                const redirectUri = 'https://your-site.netlify.app/auth/callback';
+                const scope = 'pages_show_list,instagram_basic,instagram_content_publish';
 
-                // This line sends the user to Instagram to log in.
-                // After they log in and approve, they will be sent to your `redirectUri`.
+                const authUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
+
                 window.location.href = authUrl;
             });
 
