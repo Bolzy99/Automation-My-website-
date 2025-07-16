@@ -161,8 +161,7 @@
     </div>
 
     <script>
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
+        lucide.createIcons();
 
         // --- UI Elements ---
         const loadingState = document.getElementById('loading-state');
@@ -318,16 +317,14 @@
 
             const isConnected = sessionStorage.getItem('instagramConnected') === 'true';
             
-            // Use a small timeout to show the loading state briefly, feels more professional
-            setTimeout(() => {
-                 updateInstagramUI(
-                    isConnected,
-                    sessionStorage.getItem('instagramUsername'),
-                    sessionStorage.getItem('instagramPosts'),
-                    sessionStorage.getItem('instagramFollowers'),
-                    sessionStorage.getItem('instagramFollowing')
-                );
-            }, 500); // 0.5 second delay
+            // **FIX:** The logic is now more direct, removing the problematic timeout.
+            updateInstagramUI(
+                isConnected,
+                sessionStorage.getItem('instagramUsername'),
+                sessionStorage.getItem('instagramPosts'),
+                sessionStorage.getItem('instagramFollowers'),
+                sessionStorage.getItem('instagramFollowing')
+            );
         });
 
     </script>
