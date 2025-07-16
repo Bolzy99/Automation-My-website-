@@ -24,18 +24,26 @@
 
             /* New styles for feature buttons/cards */
             .feature-button-card {
-                @apply bg-gray-800/40 border border-gray-700 rounded-lg p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300;
-                box-shadow: 0 0 15px rgba(0,0,0,0.3);
+                /* Base styles */
+                @apply bg-indigo-700 text-white rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 relative overflow-hidden;
+                min-height: 180px; /* Ensure a good minimum height for buttons */
+                box-shadow: 0 5px 15px rgba(0,0,0,0.4); /* Deeper initial shadow */
             }
             .feature-button-card:hover {
-                @apply border-sky-500 transform scale-105;
-                box-shadow: 0 0 25px rgba(56, 189, 248, 0.4);
+                /* Hover styles */
+                @apply transform scale-102; /* Slightly less scale for subtlety */
+                box-shadow: 0 8px 25px rgba(56, 189, 248, 0.6); /* Stronger glow on hover */
+                background-image: linear-gradient(45deg, #38bdf8, #a78bfa); /* Subtle gradient on hover */
             }
             .feature-button-card i {
-                @apply mb-4 text-sky-400;
+                @apply mb-4 text-white; /* Icons white on colored background */
+                font-size: 3.5rem; /* Larger icons */
             }
             .feature-button-card h3 {
-                @apply text-xl font-semibold;
+                @apply text-2xl font-bold mb-2; /* Larger heading */
+            }
+            .feature-button-card p {
+                @apply text-gray-200 text-base; /* Adjusted text color and size */
             }
         </style>
     </head>
@@ -101,56 +109,37 @@
                             </div>
                         </div>
 
-                        <p class="text-gray-400 text-center mb-6">Select an automation feature below or describe a custom intent.</p>
+                        <p class="text-gray-400 text-center mb-6">Select an automation feature below.</p>
 
-                        <!-- Instagram Automation Features -->
-                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                        <!-- Instagram Automation Features - Larger, single-color buttons -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div class="feature-button-card" data-feature="post">
-                                <i data-lucide="image" class="w-10 h-10"></i>
+                                <i data-lucide="image"></i>
                                 <h3>Post Upload Bot</h3>
-                                <p class="text-gray-400 text-sm mt-2">Generate and upload image/video posts.</p>
+                                <p>Generate and upload image/video posts.</p>
                             </div>
                             <div class="feature-button-card" data-feature="reel">
-                                <i data-lucide="film" class="w-10 h-10"></i>
+                                <i data-lucide="film"></i>
                                 <h3>Reel Upload Bot</h3>
-                                <p class="text-gray-400 text-sm mt-2">Create and upload short video reels.</p>
+                                <p>Create and upload short video reels.</p>
                             </div>
                             <div class="feature-button-card" data-feature="chat">
-                                <i data-lucide="message-square" class="w-10 h-10"></i>
+                                <i data-lucide="message-square"></i>
                                 <h3>Chat Replier Bot</h3>
-                                <p class="text-gray-400 text-sm mt-2">Automate replies to DMs and comments.</p>
+                                <p>Automate replies to DMs and comments.</p>
                             </div>
-                            <!-- Add more features as needed -->
                             <div class="feature-button-card" data-feature="story">
-                                <i data-lucide="sparkles" class="w-10 h-10"></i>
+                                <i data-lucide="sparkles"></i>
                                 <h3>Story Creator Bot</h3>
-                                <p class="text-gray-400 text-sm mt-2">Generate engaging Instagram stories.</p>
+                                <p>Generate engaging Instagram stories.</p>
                             </div>
                              <div class="feature-button-card" data-feature="insights">
-                                <i data-lucide="bar-chart-2" class="w-10 h-10"></i>
+                                <i data-lucide="bar-chart-2"></i>
                                 <h3>Insights Reporter</h3>
-                                <p class="text-gray-400 text-sm mt-2">Get automated performance reports.</p>
+                                <p>Get automated performance reports.</p>
                             </div>
-                            <div class="feature-button-card" data-feature="custom">
-                                <i data-lucide="zap" class="w-10 h-10"></i>
-                                <h3>Custom Automation</h3>
-                                <p class="text-gray-400 text-sm mt-2">Describe any other automation task.</p>
-                            </div>
+                            <!-- Removed Custom Automation Button -->
                         </div>
-
-                        <form id="insta-post-form">
-                            <label for="intent" class="block text-sm font-medium text-gray-300 mb-2">Describe your automation intent:</label>
-                            <textarea id="intent" name="intent" rows="5" class="form-textarea w-full rounded-md p-3 text-lg" placeholder="e.g., 'Create a motivational post about overcoming challenges with a picture of a mountain at sunrise.'"></textarea>
-                            
-                            <input type="hidden" id="automation-type" name="automationType" value="post"> <!-- Hidden field for automation type -->
-
-                            <div class="mt-6">
-                                <button type="submit" class="w-full flex items-center justify-center gap-3 py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-sky-500 hover:bg-sky-600 transition-colors">
-                                    <span id="button-text">Generate & Automate</span>
-                                    <div id="loading-spinner" class="spinner hidden"></div>
-                                </button>
-                            </div>
-                        </form>
                         
                         <div id="status-message" class="mt-6 text-center text-lg"></div>
                     </div>
@@ -167,21 +156,17 @@
             const disconnectedView = document.getElementById('insta-disconnected');
             const connectedView = document.getElementById('insta-connected');
             const connectButton = document.getElementById('connect-insta-btn');
-            const postForm = document.getElementById('insta-post-form');
             const statusMessage = document.getElementById('status-message');
-            const buttonText = document.getElementById('button-text');
-            const spinner = document.getElementById('loading-spinner');
             const instaUsernameSpan = document.getElementById('insta-username');
             const signOutButton = document.getElementById('sign-out-btn');
 
-            // New elements for Instagram profile info
+            // Elements for Instagram profile info
             const instaPostsCount = document.getElementById('insta-posts-count');
             const instaFollowersCount = document.getElementById('insta-followers-count');
             const instaFollowingCount = document.getElementById('insta-following-count');
 
-            // New elements for feature buttons
+            // Elements for feature buttons
             const featureButtons = document.querySelectorAll('.feature-button-card');
-            const automationTypeInput = document.getElementById('automation-type');
 
 
             // --- Function to update UI based on connection status ---
@@ -275,106 +260,20 @@
             featureButtons.forEach(button => {
                 button.addEventListener('click', () => {
                     const featureType = button.dataset.feature; // Get the data-feature attribute
-                    let placeholderText = '';
-                    let submitButtonText = 'Generate & Automate';
-
-                    switch (featureType) {
-                        case 'post':
-                            placeholderText = 'e.g., "Create a motivational post about overcoming challenges with a picture of a mountain at sunrise."';
-                            submitButtonText = 'Generate & Post to Instagram';
-                            break;
-                        case 'reel':
-                            placeholderText = 'e.g., "Generate a short, engaging reel about the benefits of AI automation with upbeat music."';
-                            submitButtonText = 'Generate & Upload Reel';
-                            break;
-                        case 'chat':
-                            placeholderText = 'e.g., "Set up an AI chatbot to reply to common FAQs in DMs and comments."';
-                            submitButtonText = 'Generate & Deploy Chatbot';
-                            break;
-                        case 'story':
-                            placeholderText = 'e.g., "Create a 15-second story promoting our new service with a call to action."';
-                            submitButtonText = 'Generate & Post Story';
-                            break;
-                        case 'insights':
-                            placeholderText = 'e.g., "Generate a weekly report on Instagram post performance and audience growth."';
-                            submitButtonText = 'Generate Insights Report';
-                            break;
-                        case 'custom':
-                            placeholderText = 'Describe any custom automation you need (e.g., "Automatically follow back new followers who mention us in their stories").';
-                            submitButtonText = 'Generate & Automate Custom Task';
-                            break;
-                        default:
-                            placeholderText = 'Describe your automation intent:';
-                            submitButtonText = 'Generate & Automate';
-                    }
-
-                    document.getElementById('intent').value = ''; // Clear previous intent
-                    document.getElementById('intent').placeholder = placeholderText;
-                    buttonText.textContent = submitButtonText;
-                    automationTypeInput.value = featureType; // Set the hidden input value
+                    // For now, we'll just log the feature type.
+                    // In a future step, this will trigger a pop-up with the intent textarea.
+                    console.log(`Feature selected: ${featureType}`);
+                    statusMessage.textContent = `You selected the "${featureType.replace('-', ' ').toUpperCase()}" feature. (Pop-up coming soon!)`;
+                    statusMessage.classList.remove('text-red-400', 'text-emerald-400');
+                    statusMessage.classList.add('text-yellow-400');
                 });
             });
 
 
-            // --- Instagram Posting Logic ---
-            postForm.addEventListener('submit', async function(event) {
-                event.preventDefault();
-                buttonText.textContent = 'Generating...';
-                spinner.classList.remove('hidden');
-                statusMessage.textContent = ''; // Clear previous status
+            // --- Instagram Posting Logic (Removed from main page, will be in pop-up) ---
+            // The postForm and its submit listener are removed from here as per your request.
+            // This functionality will be re-introduced within a pop-up dialog.
 
-                const intent = document.getElementById('intent').value;
-                const automationType = automationTypeInput.value; // Get the selected automation type
-
-                if (!intent) {
-                    statusMessage.textContent = 'Please describe your automation intent.';
-                    statusMessage.classList.remove('text-emerald-400', 'text-red-400');
-                    statusMessage.classList.add('text-yellow-400');
-                    buttonText.textContent = 'Generate & Automate';
-                    spinner.classList.add('hidden');
-                    return;
-                }
-
-                try {
-                    // Simulate API call to n8n workflow for content generation and posting
-                    // Replace 'YOUR_N8N_WEBHOOK_URL' with your actual n8n webhook URL
-                    const n8nWebhookUrl = 'YOUR_N8N_WEBHOOK_URL'; 
-                    // You would also send the user's instagram token/ID from sessionStorage or a more secure backend store
-                    const response = await fetch(n8nWebhookUrl, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({
-                            intent: intent,
-                            automationType: automationType, // Send the selected automation type
-                            instagramAccessToken: sessionStorage.getItem('instagramAccessToken'), // Placeholder
-                            instagramBusinessId: sessionStorage.getItem('instagramBusinessId') // Placeholder
-                        }),
-                    });
-
-                    if (response.ok) {
-                        const result = await response.json();
-                        statusMessage.textContent = `Automation task "${automationType}" initiated! Message: ${result.message || 'Success'}`;
-                        statusMessage.classList.remove('text-red-400', 'text-yellow-400');
-                        statusMessage.classList.add('text-emerald-400');
-                        document.getElementById('intent').value = ''; // Clear textarea
-                    } else {
-                        const errorData = await response.json();
-                        statusMessage.textContent = `Error initiating automation: ${errorData.message || response.statusText}`;
-                        statusMessage.classList.remove('text-emerald-400', 'text-yellow-400');
-                        statusMessage.classList.add('text-red-400');
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    statusMessage.textContent = 'An unexpected error occurred. Please try again.';
-                    statusMessage.classList.remove('text-emerald-400', 'text-yellow-400');
-                    statusMessage.classList.add('text-red-400');
-                } finally {
-                    buttonText.textContent = 'Generate & Automate';
-                    spinner.classList.add('hidden');
-                }
-            });
 
             // --- Sign Out Logic ---
             signOutButton.addEventListener('click', (event) => {
