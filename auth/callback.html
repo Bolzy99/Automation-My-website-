@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authenticating...</title>
+  <!-- Tailwind CSS for basic styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background-color: #000000; 
+      color: #F3F4F6; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      min-height: 100vh; 
+      text-align: center; 
+    }
+    .message-box { 
+      background-color: rgba(31, 41, 55, 0.5); /* Semi-transparent gray-800 */
+      border: 1px solid #4b5563; /* Gray-600 */
+      backdrop-filter: blur(10px); 
+      -webkit-backdrop-filter: blur(10px); 
+      padding: 2rem; 
+      border-radius: 1rem; 
+      box-shadow: 0 0 30px rgba(56, 189, 248, 0.2); /* Subtle glow */
+      max-width: 90%; /* Responsive width */
+      margin: 1rem; /* Add some margin */
+    }
+    .spinner { 
+      border: 4px solid rgba(255, 255, 255, 0.3); 
+      border-radius: 50%; 
+      border-top-color: #38bdf8; /* Sky-400 color */
+      width: 40px; 
+      height: 40px; 
+      animation: spin 1s ease-in-out infinite; 
+      margin: 0 auto 1rem; /* Center spinner and add space below */
+    }
+    @keyframes spin { 
+      to { transform: rotate(360deg); } 
+    }
+  </style>
+</head>
+<body>
+  <div class="message-box">
+    <div id="loading-spinner" class="spinner"></div>
+    <p id="status-text" class="text-lg text-gray-300">Attempting to connect Instagram...</p>
+  </div>
+
+  <script>
+    // This script runs when Meta redirects back to this page.
+    const urlParams = new URLSearchParams(window.location.search);
+    const code = urlParams.get("code"); // This is the authorization code from Meta
+    const error = urlParams.get("error"); // Check for any errors from Meta
+
+    const statusText = document.getElementById('status-text');
+    const spinner = document.getElementById('loading-spinner');
+
+    if (code) {
+      statusText.textContent = "Successfully authorized! Preparing for backend exchange...";
+      // In a real application, you would send this 'code' to your n8n workflow (or any backend)
+      // Your n8n workflow would then make the server-to-server call to Meta's API
+      // to exchange this 'code' for a long-lived access token and Instagram Business Account ID.
+
+      console.log("Received authorization code:", code); // Log the code for debugging
+
+      // Simulate a delay before redirecting, as a backend call would take time
+      setTimeout(() => {
+        spinner.classList.add('hidden'); // Hide spinner
+        statusText.textContent = "Connection successful! Redirecting to dashboard...";
+        // Redirect back to your dashboard or a success page
+        // Ensure the path to dashboard.html is correct relative to auth/callback.html
+        window.location.href = '../dashboard.html?status=success&code=' + code; 
+      }, 2000); // 2 second delay
+      
+    } else if (error) {
+      spinner.classList.add('hidden'); // Hide spinner
+      statusText.textContent = `Authorization failed: ${urlParams.get("error_description") || error}. Please try again.`;
+      console.error("Authorization error:", error, urlParams.get("error_description"));
+      // Optionally, redirect back to the dashboard with an error message
+      setTimeout(() => {
+        window.location.href = '../dashboard.html?status=error&message=' + encodeURIComponent(urlParams.get("error_description") || error);
+      }, 3000);
+    } else {
+      spinner.classList.add('hidden'); // Hide spinner
+      statusText.textContent = "Something went wrong. No code or error received.";
+      setTimeout(() => {
+        window.location.href = '../dashboard.html?status=error&message=unknown_error';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
