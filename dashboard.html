@@ -161,7 +161,8 @@
     </div>
 
     <script>
-        lucide.createIcons();
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
 
         // --- UI Elements ---
         const loadingState = document.getElementById('loading-state');
