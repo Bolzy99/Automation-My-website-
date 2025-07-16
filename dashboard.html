@@ -1,332 +1,293 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - SKYNET Automation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide-icons@latest/dist/umd/lucide.js"></script>
-    <style>
-        body { font-family: 'Inter', sans-serif; background-color: #000000; color: #F3F4F6; }
-        .gradient-text { background: linear-gradient(90deg, #38bdf8, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
-        .dashboard-card { background-color: rgba(17, 24, 39, 0.8); border: 1px solid rgba(55, 65, 81, 0.7); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-        .spinner { border: 4px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: #38bdf8; width: 24px; height: 24px; animation: spin 1s ease-in-out infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+    <!DOCTYPE html>
+    <html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard - SKYNET Automation</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <script src="https://unpkg.com/lucide-icons@latest/dist/umd/lucide.js"></script>
+        <style>
+            body { font-family: 'Inter', sans-serif; background-color: #000000; color: #F3F4F6; }
+            .gradient-text { background: linear-gradient(90deg, #38bdf8, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
+            .dashboard-card { 
+                background-color: rgba(31, 41, 55, 0.3); 
+                border: 1px solid rgba(75, 85, 99, 0.5); 
+                backdrop-filter: blur(10px); 
+                -webkit-backdrop-filter: blur(10px); 
+                border-radius: 1rem; /* Consistent rounded corners */
+            }
+            .form-textarea { background-color: rgba(31, 41, 55, 0.5); border: 1px solid #4b5563; transition: border-color 0.2s; }
+            .form-textarea:focus { border-color: #38bdf8; outline: none; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.4); }
+            .spinner { border: 4px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: #38bdf8; width: 24px; height: 24px; animation: spin 1s ease-in-out infinite; }
+            @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Styles for the feature buttons */
-        .feature-card {
-            @apply relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ease-in-out;
-            background-size: cover;
-            background-position: center;
-            min-height: 220px;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
-        }
-        .feature-card:before {
-            content: '';
-            @apply absolute inset-0 transition-all duration-300;
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.1) 60%);
-        }
-        .feature-card:hover:before {
-            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 70%);
-        }
-        .feature-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 8px 30px rgba(56, 189, 248, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
-        }
-        .feature-content {
-            @apply absolute bottom-0 left-0 right-0 p-6 text-left;
-        }
-        .feature-content h3 {
-            @apply text-2xl font-black tracking-tight text-white;
-        }
-        .feature-content p {
-            @apply text-gray-300 text-sm mt-1;
-        }
+            /* New styles for feature buttons/cards */
+            .feature-button-card {
+                /* Base styles */
+                @apply bg-indigo-700 text-white rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-300 relative overflow-hidden;
+                min-height: 180px; /* Ensure a good minimum height for buttons */
+                box-shadow: 0 5px 15px rgba(0,0,0,0.4); /* Deeper initial shadow */
+            }
+            .feature-button-card:hover {
+                /* Hover styles */
+                @apply transform scale-102; /* Slightly less scale for subtlety */
+                box-shadow: 0 8px 25px rgba(56, 189, 248, 0.6); /* Stronger glow on hover */
+                background-image: linear-gradient(45deg, #38bdf8, #a78bfa); /* Subtle gradient on hover */
+            }
+            .feature-button-card i {
+                @apply mb-4 text-white; /* Icons white on colored background */
+                font-size: 3.5rem; /* Larger icons */
+            }
+            .feature-button-card h3 {
+                @apply text-2xl font-bold mb-2; /* Larger heading */
+            }
+            .feature-button-card p {
+                @apply text-gray-200 text-base; /* Adjusted text color and size */
+            }
+        </style>
+    </head>
+    <body class="antialiased">
 
-        /* Modal Styles */
-        .modal-overlay {
-            @apply fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none z-50;
-        }
-        .modal-container {
-            @apply bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl w-full max-w-2xl m-4 p-8 transition-all duration-300 transform scale-95 opacity-0;
-        }
-        .modal-overlay.active {
-            @apply opacity-100 pointer-events-auto;
-        }
-        .modal-overlay.active .modal-container {
-            @apply scale-100 opacity-100;
-        }
-        .form-textarea { background-color: rgba(31, 41, 55, 0.5); border: 1px solid #4b5563; }
-        .form-textarea:focus { border-color: #38bdf8; outline: none; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.4); }
-    </style>
-</head>
-<body class="antialiased">
-
-    <!-- === HEADER === -->
-    <header class="sticky top-0 z-40 bg-black/80 backdrop-blur-sm border-b border-gray-800">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="text-2xl font-bold tracking-wider"><a href="index.html">SKYNET</a></div>
-                <nav class="hidden md:flex items-center space-x-8">
-                    <a href="services.html" class="hover:text-sky-400 transition-colors">Services</a>
-                    <a href="process.html" class="hover:text-sky-400 transition-colors">Our Process</a>
-                    <a href="contact.html" class="hover:text-sky-400 transition-colors">Contact</a>
-                </nav>
-                <div class="flex items-center space-x-4">
-                    <a href="#" id="sign-out-btn" class="text-sm hover:text-red-400 transition-colors">Sign Out</a>
+        <!-- === HEADER === -->
+        <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-gray-800">
+            <div class="container mx-auto px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="text-2xl font-bold tracking-wider"><a href="index.html">SKYNET</a></div>
+                    <nav class="hidden md:flex items-center space-x-8">
+                        <a href="services.html" class="hover:text-sky-400 transition-colors">Services</a>
+                        <a href="process.html" class="hover:text-sky-400 transition-colors">Our Process</a>
+                        <a href="contact.html" class="hover:text-sky-400 transition-colors">Contact</a>
+                    </nav>
+                    <div class="flex items-center space-x-4">
+                        <a href="#" id="sign-out-btn" class="text-sm hover:text-red-400 transition-colors">Sign Out</a>
+                    </div>
                 </div>
             </div>
         </header>
 
-    <main class="py-20">
-        <div class="container mx-auto px-6">
-            <h1 class="text-4xl md:text-5xl font-black mb-4">Automation <span class="gradient-text">Dashboard</span></h1>
-            <p class="text-lg text-gray-400 mb-12">Welcome, Bolzy. Initiate your automated workflows below.</p>
+        <main class="py-20">
+            <div class="container mx-auto px-6">
+                <h1 class="text-4xl md:text-5xl font-bold mb-12">Automation <span class="gradient-text">Dashboard</span></h1>
 
-            <!-- Loading State: Shown briefly on page load -->
-            <div id="loading-state" class="dashboard-card max-w-4xl mx-auto rounded-2xl p-8 text-center">
-                 <div class="spinner mx-auto"></div>
-                 <p class="mt-4 text-gray-400">Checking connection status...</p>
-            </div>
+                <!-- Instagram Automation Card -->
+                <div class="dashboard-card max-w-4xl mx-auto rounded-2xl p-8">
+                    <div class="flex items-center gap-4 mb-6">
+                        <i data-lucide="instagram" class="w-8 h-8 text-pink-400"></i>
+                        <h2 class="text-3xl font-bold">Instagram Automation Hub</h2>
+                    </div>
 
-            <!-- Instagram Connection Status -->
-            <div id="insta-disconnected" class="dashboard-card max-w-4xl mx-auto rounded-2xl p-8 text-center hidden">
-                <i data-lucide="instagram" class="w-12 h-12 text-pink-400 mx-auto mb-4"></i>
-                <h2 class="text-2xl font-bold mb-2">Connect Your Instagram Account</h2>
-                <p class="text-gray-400 mb-6 max-w-xl mx-auto">To access the Automation Hub, please connect your Instagram account. This will redirect you to Facebook to securely authorize SKYNET.</p>
-                <button id="connect-insta-btn" class="inline-flex items-center justify-center gap-3 py-3 px-8 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-gradient-to-r from-pink-500 to-orange-500 hover:opacity-90 transition-opacity">
-                    <i data-lucide="link"></i>
-                    Connect with Instagram
-                </button>
-            </div>
+                    <!-- STEP 1: User sees this first. They need to connect their account. -->
+                    <div id="insta-disconnected">
+                        <p class="text-gray-400 mb-6">To get started, connect your Instagram account. This will redirect you to Instagram to securely authorize SKYNET to post on your behalf.</p>
+                        <button id="connect-insta-btn" class="w-full flex items-center justify-center gap-3 py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-gradient-to-r from-pink-500 to-orange-500 hover:opacity-90 transition-opacity">
+                            <i data-lucide="link"></i>
+                            Connect with Instagram
+                        </button>
+                    </div>
 
-            <!-- Main Dashboard - Shown when connected -->
-            <div id="insta-connected" class="hidden">
-                <div class="dashboard-card max-w-6xl mx-auto rounded-2xl p-8 mb-12">
-                     <div class="flex flex-col md:flex-row items-center justify-between">
-                        <div class="flex items-center gap-4 text-center md:text-left">
-                            <i data-lucide="check-circle" class="w-10 h-10 text-emerald-400 flex-shrink-0"></i>
-                            <div>
-                                <h2 class="text-2xl font-bold">Instagram Automation Hub</h2>
-                                <p class="text-emerald-400">Account Connected: <strong id="insta-username"></strong></p>
+                    <!-- STEP 2: This section is hidden until the user successfully connects their account. -->
+                    <div id="insta-connected" class="hidden">
+                        <div class="bg-emerald-900/50 border border-emerald-500 text-emerald-300 px-4 py-3 rounded-lg mb-6 flex items-center gap-3">
+                            <i data-lucide="check-circle"></i>
+                            <span>Instagram Account Connected: <strong id="insta-username"></strong></span>
+                        </div>
+
+                        <!-- Instagram Profile Info -->
+                        <div class="grid grid-cols-3 gap-4 text-center mb-8">
+                            <div class="p-4 dashboard-card">
+                                <p class="text-2xl font-bold text-sky-400" id="insta-posts-count">0</p>
+                                <p class="text-gray-400 text-sm">Posts</p>
+                            </div>
+                            <div class="p-4 dashboard-card">
+                                <p class="text-2xl font-bold text-purple-400" id="insta-followers-count">0</p>
+                                <p class="text-gray-400 text-sm">Followers</p>
+                            </div>
+                            <div class="p-4 dashboard-card">
+                                <p class="text-2xl font-bold text-pink-400" id="insta-following-count">0</p>
+                                <p class="text-gray-400 text-sm">Following</p>
                             </div>
                         </div>
-                        <div class="grid grid-cols-3 gap-4 text-center mt-6 md:mt-0">
-                            <div class="p-3 bg-black/20 rounded-lg"><p class="text-xl font-bold text-sky-400" id="insta-posts-count">0</p><p class="text-gray-400 text-xs">Posts</p></div>
-                            <div class="p-3 bg-black/20 rounded-lg"><p class="text-xl font-bold text-purple-400" id="insta-followers-count">0</p><p class="text-gray-400 text-xs">Followers</p></div>
-                            <div class="p-3 bg-black/20 rounded-lg"><p class="text-xl font-bold text-pink-400" id="insta-following-count">0</p><p class="text-gray-400 text-xs">Following</p></div>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="max-w-6xl mx-auto">
-                    <h3 class="text-3xl font-bold mb-8 text-center">Select a Workflow to Initiate</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <div class="feature-card" data-feature="post-upload" style="background-image: url('assets/post-upload-bg.jpg');">
-                            <div class="feature-content"><h3>Content Generation Engine</h3><p>AI-powered image and caption creation for posts.</p></div>
+                        <p class="text-gray-400 text-center mb-6">Select an automation feature below.</p>
+
+                        <!-- Instagram Automation Features - Larger, single-color buttons -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div class="feature-button-card" data-feature="post">
+                                <i data-lucide="image"></i>
+                                <h3>Post Upload Bot</h3>
+                                <p>Generate and upload image/video posts.</p>
+                            </div>
+                            <div class="feature-button-card" data-feature="reel">
+                                <i data-lucide="film"></i>
+                                <h3>Reel Upload Bot</h3>
+                                <p>Create and upload short video reels.</p>
+                            </div>
+                            <div class="feature-button-card" data-feature="chat">
+                                <i data-lucide="message-square"></i>
+                                <h3>Chat Replier Bot</h3>
+                                <p>Automate replies to DMs and comments.</p>
+                            </div>
+                            <div class="feature-button-card" data-feature="story">
+                                <i data-lucide="sparkles"></i>
+                                <h3>Story Creator Bot</h3>
+                                <p>Generate engaging Instagram stories.</p>
+                            </div>
+                             <div class="feature-button-card" data-feature="insights">
+                                <i data-lucide="bar-chart-2"></i>
+                                <h3>Insights Reporter</h3>
+                                <p>Get automated performance reports.</p>
+                            </div>
+                            <!-- Removed Custom Automation Button -->
                         </div>
-                        <div class="feature-card" data-feature="reel-upload" style="background-image: url('assets/reel-upload-bg.jpg');">
-                            <div class="feature-content"><h3>Viral Reel Synthesizer</h3><p>Automated creation and deployment of short-form video.</p></div>
-                        </div>
-                        <div class="feature-card" data-feature="chat-replier" style="background-image: url('assets/chat-replier-bg.jpg');">
-                            <div class="feature-content"><h3>Engagement AI Matrix</h3><p>Intelligent, automated responses for DMs and comments.</p></div>
-                        </div>
+                        
+                        <div id="status-message" class="mt-6 text-center text-lg"></div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <!-- Modal Dialog for Intent -->
-    <div id="intent-modal" class="modal-overlay">
-        <div class="modal-container">
-            <div class="flex justify-between items-center mb-6">
-                <h2 id="modal-title" class="text-3xl font-bold gradient-text">Initiate Workflow</h2>
-                <button id="close-modal-btn" class="text-gray-400 hover:text-white transition-colors"><i data-lucide="x" class="w-8 h-8"></i></button>
-            </div>
-            <p id="modal-instructions" class="text-gray-300 mb-4 text-lg"></p>
-            <form id="intent-form">
-                <textarea id="intent-textarea" rows="6" class="form-textarea w-full rounded-md p-4 text-lg" placeholder="Describe your intent here..."></textarea>
-                <input type="hidden" id="feature-type-input">
-                <div id="modal-status-message" class="mt-4 text-center text-lg"></div>
-                <div class="mt-6 flex justify-end">
-                    <button type="submit" class="w-full md:w-auto flex items-center justify-center gap-3 py-3 px-8 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-sky-500 hover:bg-sky-600 transition-colors">
-                        <span id="modal-button-text">Execute Automation</span>
-                        <div id="modal-spinner" class="spinner hidden"></div>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script>
-        lucide.createIcons();
-
-        // --- UI Elements ---
-        const loadingState = document.getElementById('loading-state');
-        const disconnectedView = document.getElementById('insta-disconnected');
-        const connectedView = document.getElementById('insta-connected');
-        const connectButton = document.getElementById('connect-insta-btn');
-        const instaUsernameSpan = document.getElementById('insta-username');
-        const signOutButton = document.getElementById('sign-out-btn');
-        const instaPostsCount = document.getElementById('insta-posts-count');
-        const instaFollowersCount = document.getElementById('insta-followers-count');
-        const instaFollowingCount = document.getElementById('insta-following-count');
-        const featureCards = document.querySelectorAll('.feature-card');
-        
-        // Modal Elements
-        const modal = document.getElementById('intent-modal');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-        const modalTitle = document.getElementById('modal-title');
-        const modalInstructions = document.getElementById('modal-instructions');
-        const intentForm = document.getElementById('intent-form');
-        const intentTextarea = document.getElementById('intent-textarea');
-        const featureTypeInput = document.getElementById('feature-type-input');
-        const modalStatusMessage = document.getElementById('modal-status-message');
-        const modalButtonText = document.getElementById('modal-button-text');
-        const modalSpinner = document.getElementById('modal-spinner');
-
-        // --- Modal & Feature Data ---
-        const featureData = {
-            'post-upload': {
-                title: 'Content Generation Engine',
-                instructions: 'Describe the image you want the AI to generate and the core message of your post. The system will create a visually stunning image and a compelling caption, then upload it directly to your Instagram feed.'
-            },
-            'reel-upload': {
-                title: 'Viral Reel Synthesizer',
-                instructions: 'Provide a topic or a script outline. The AI will generate a short, engaging video reel with appropriate visuals and audio, optimized for viral potential and ready for deployment.'
-            },
-            'chat-replier': {
-                title: 'Engagement AI Matrix',
-                instructions: 'Define the rules for your automated responses. Specify keywords, question types, and the desired tone. The AI will handle DMs and comments, ensuring no lead or interaction is missed.'
-            }
-        };
-
-        // --- Core Logic ---
-        function updateInstagramUI(isConnected, username, posts, followers, following) {
-            // Hide the loading state first
-            loadingState.classList.add('hidden');
-
-            if (isConnected) {
-                disconnectedView.classList.add('hidden');
-                connectedView.classList.remove('hidden');
-                instaUsernameSpan.textContent = `@${username}`;
-                instaPostsCount.textContent = (posts || 0).toLocaleString();
-                instaFollowersCount.textContent = (followers || 0).toLocaleString();
-                instaFollowingCount.textContent = (following || 0).toLocaleString();
-            } else {
-                disconnectedView.classList.remove('hidden');
-                connectedView.classList.add('hidden');
-            }
-        }
-
-        function openModal(feature) {
-            const data = featureData[feature];
-            if (!data) return;
-
-            modalTitle.textContent = data.title;
-            modalInstructions.textContent = data.instructions;
-            featureTypeInput.value = feature;
-            intentTextarea.value = '';
-            modalStatusMessage.textContent = '';
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            modal.classList.remove('active');
-        }
-
-        // --- Event Listeners ---
-        connectButton.addEventListener('click', () => {
-            const appId = '1034637958867552'; 
-            const redirectUri = 'https://deskill.netlify.app/auth/callback.html'; 
-            const scope = 'pages_show_list,instagram_basic,instagram_content_publish,pages_read_engagement';
-            const authUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
-            window.location.href = authUrl;
-        });
-
-        signOutButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            sessionStorage.clear();
-            window.location.href = 'index.html';
-        });
-
-        featureCards.forEach(card => {
-            card.addEventListener('click', () => {
-                openModal(card.dataset.feature);
-            });
-        });
-
-        closeModalBtn.addEventListener('click', closeModal);
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeModal();
-        });
-        
-        intentForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const intent = intentTextarea.value;
-            const feature = featureTypeInput.value;
-
-            if (!intent.trim()) {
-                modalStatusMessage.textContent = 'Please provide your instructions.';
-                modalStatusMessage.className = 'mt-4 text-center text-lg text-yellow-400';
-                return;
+        <script>
+            if (typeof lucide !== 'undefined') {
+                lucide.createIcons();
             }
 
-            modalButtonText.classList.add('hidden');
-            modalSpinner.classList.remove('hidden');
-            modalStatusMessage.textContent = 'Executing... Please wait.';
-            modalStatusMessage.className = 'mt-4 text-center text-lg text-gray-400';
+            // --- UI Elements ---
+            const disconnectedView = document.getElementById('insta-disconnected');
+            const connectedView = document.getElementById('insta-connected');
+            const connectButton = document.getElementById('connect-insta-btn');
+            const statusMessage = document.getElementById('status-message');
+            const instaUsernameSpan = document.getElementById('insta-username');
+            const signOutButton = document.getElementById('sign-out-btn');
 
-            // --- N8N Webhook Call ---
-            const n8nWebhookUrl = 'YOUR_N8N_WEBHOOK_URL_HERE';
-            const accessToken = sessionStorage.getItem('instagramAccessToken');
-            const businessId = sessionStorage.getItem('instagramBusinessId');
+            // Elements for Instagram profile info
+            const instaPostsCount = document.getElementById('insta-posts-count');
+            const instaFollowersCount = document.getElementById('insta-followers-count');
+            const instaFollowingCount = document.getElementById('insta-following-count');
 
-            try {
-                // Simulate n8n call
-                await new Promise(resolve => setTimeout(resolve, 2500));
-                
-                modalStatusMessage.textContent = 'Workflow initiated successfully!';
-                modalStatusMessage.className = 'mt-4 text-center text-lg text-emerald-400';
-                setTimeout(closeModal, 2000);
+            // Elements for feature buttons
+            const featureButtons = document.querySelectorAll('.feature-button-card');
 
-            } catch (error) {
-                modalStatusMessage.textContent = 'An error occurred. Please try again.';
-                modalStatusMessage.className = 'mt-4 text-center text-lg text-red-400';
-            } finally {
-                modalButtonText.classList.remove('hidden');
-                modalSpinner.classList.add('hidden');
+
+            // --- Function to update UI based on connection status ---
+            function updateInstagramUI(isConnected, username = '', posts = 0, followers = 0, following = 0) {
+                if (isConnected) {
+                    disconnectedView.classList.add('hidden');
+                    connectedView.classList.remove('hidden');
+                    instaUsernameSpan.textContent = `@${username}`;
+                    instaPostsCount.textContent = posts.toLocaleString();
+                    instaFollowersCount.textContent = followers.toLocaleString();
+                    instaFollowingCount.textContent = following.toLocaleString();
+                } else {
+                    disconnectedView.classList.remove('hidden');
+                    connectedView.classList.add('hidden');
+                    instaUsernameSpan.textContent = '';
+                    instaPostsCount.textContent = '0';
+                    instaFollowersCount.textContent = '0';
+                    instaFollowingCount.textContent = '0';
+                }
             }
-        });
 
-        // --- Initial Page Load Logic ---
-        document.addEventListener('DOMContentLoaded', () => {
+            // --- Check URL parameters on page load ---
             const urlParams = new URLSearchParams(window.location.search);
             const authStatus = urlParams.get('status');
-            
-            if (authStatus === 'success') {
+            const authCode = urlParams.get('code');
+            const authErrorMessage = urlParams.get('message');
+
+            let isUserConnected = sessionStorage.getItem('instagramConnected') === 'true';
+            // Placeholder data for testing. In a real app, this would come from your backend.
+            let connectedUsername = sessionStorage.getItem('instagramUsername') || 'bolzy99'; 
+            let userPosts = parseInt(sessionStorage.getItem('instagramPosts') || '120');
+            let userFollowers = parseInt(sessionStorage.getItem('instagramFollowers') || '5432');
+            let userFollowing = parseInt(sessionStorage.getItem('instagramFollowing') || '87');
+
+
+            if (authStatus === 'success' && authCode) {
+                // User just successfully authorized via Meta
+                isUserConnected = true;
+                // In a real app, you'd fetch the actual username and metrics from your backend after token exchange
+                // For now, we'll use a placeholder or the test username/metrics
+                connectedUsername = 'bolzy99'; 
+                userPosts = 125;
+                userFollowers = 5500;
+                userFollowing = 90;
+
                 sessionStorage.setItem('instagramConnected', 'true');
-                sessionStorage.setItem('instagramUsername', 'bolzy99');
-                sessionStorage.setItem('instagramPosts', '125');
-                sessionStorage.setItem('instagramFollowers', '5500');
-                sessionStorage.setItem('instagramFollowing', '90');
+                sessionStorage.setItem('instagramUsername', connectedUsername);
+                sessionStorage.setItem('instagramPosts', userPosts);
+                sessionStorage.setItem('instagramFollowers', userFollowers);
+                sessionStorage.setItem('instagramFollowing', userFollowing);
+
+                statusMessage.textContent = 'Instagram connected successfully!';
+                statusMessage.classList.add('text-emerald-400');
+                // Clear the URL parameters to prevent re-processing on refresh
+                window.history.replaceState({}, document.title, window.location.pathname); 
+
+            } else if (authStatus === 'error') {
+                statusMessage.textContent = `Connection failed: ${decodeURIComponent(authErrorMessage || 'Unknown error')}`;
+                statusMessage.classList.add('text-red-400');
+                sessionStorage.setItem('instagramConnected', 'false');
+                sessionStorage.removeItem('instagramUsername');
+                sessionStorage.removeItem('instagramPosts');
+                sessionStorage.removeItem('instagramFollowers');
+                sessionStorage.removeItem('instagramFollowing');
+                // Clear the URL parameters
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
 
-            const isConnected = sessionStorage.getItem('instagramConnected') === 'true';
-            
-            // **FIX:** The logic is now more direct, removing the problematic timeout.
-            updateInstagramUI(
-                isConnected,
-                sessionStorage.getItem('instagramUsername'),
-                sessionStorage.getItem('instagramPosts'),
-                sessionStorage.getItem('instagramFollowers'),
-                sessionStorage.getItem('instagramFollowing')
-            );
-        });
+            // Update UI based on current state
+            updateInstagramUI(isUserConnected, connectedUsername, userPosts, userFollowers, userFollowing);
 
-    </script>
-</body>
-</html>
+            // --- OAUTH FLOW TRIGGER ---
+            connectButton.addEventListener('click', () => {
+                // IMPORTANT: Replace '1034637958867552' with your actual App ID from Meta Developers
+                const appId = '1034637958867552'; 
+                // IMPORTANT: Replace 'https://deskill.netlify.app/auth/callback.html' with the exact Redirect URI you added in Meta Developers
+                // If testing locally, use 'http://localhost:5500/auth/callback.html' or your local server's address
+                const redirectUri = 'https://deskill.netlify.app/auth/callback.html'; 
+
+                // These are the permissions your app is requesting from the user
+                const scope = 'pages_show_list,instagram_basic,instagram_content_publish';
+
+                // Construct the full OAuth URL
+                const authUrl = `https://www.facebook.com/v18.0/dialog/oauth?client_id=${appId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
+
+                // Redirect the user to Meta's authorization page
+                window.location.href = authUrl;
+            });
+
+            // --- Feature Button Click Handlers ---
+            featureButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const featureType = button.dataset.feature; // Get the data-feature attribute
+                    // For now, we'll just log the feature type.
+                    // In a future step, this will trigger a pop-up with the intent textarea.
+                    console.log(`Feature selected: ${featureType}`);
+                    statusMessage.textContent = `You selected the "${featureType.replace('-', ' ').toUpperCase()}" feature. (Pop-up coming soon!)`;
+                    statusMessage.classList.remove('text-red-400', 'text-emerald-400');
+                    statusMessage.classList.add('text-yellow-400');
+                });
+            });
+
+
+            // --- Instagram Posting Logic (Removed from main page, will be in pop-up) ---
+            // The postForm and its submit listener are removed from here as per your request.
+            // This functionality will be re-introduced within a pop-up dialog.
+
+
+            // --- Sign Out Logic ---
+            signOutButton.addEventListener('click', (event) => {
+                event.preventDefault();
+                sessionStorage.removeItem('instagramConnected');
+                sessionStorage.removeItem('instagramUsername');
+                sessionStorage.removeItem('instagramPosts');
+                sessionStorage.removeItem('instagramFollowers');
+                sessionStorage.removeItem('instagramFollowing');
+                sessionStorage.removeItem('instagramAccessToken'); // Clear any stored tokens
+                sessionStorage.removeItem('instagramBusinessId'); // Clear any stored IDs
+                window.location.href = 'index.html'; // Redirect to home or sign-in page
+            });
+
+        </script>
+    </body>
+    </html>
