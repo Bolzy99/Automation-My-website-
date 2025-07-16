@@ -14,7 +14,7 @@
         .spinner { border: 4px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top-color: #38bdf8; width: 24px; height: 24px; animation: spin 1s ease-in-out infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* New styles for the feature buttons */
+        /* Styles for the feature buttons */
         .feature-card {
             @apply relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 ease-in-out;
             background-size: cover;
@@ -46,7 +46,7 @@
 
         /* Modal Styles */
         .modal-overlay {
-            @apply fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none;
+            @apply fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center transition-opacity duration-300 opacity-0 pointer-events-none z-50;
         }
         .modal-container {
             @apply bg-gray-900 border border-gray-700 rounded-2xl shadow-2xl w-full max-w-2xl m-4 p-8 transition-all duration-300 transform scale-95 opacity-0;
@@ -64,7 +64,7 @@
 <body class="antialiased">
 
     <!-- === HEADER === -->
-    <header class="sticky top-0 z-50 bg-black/80 backdrop-blur-sm border-b border-gray-800">
+    <header class="sticky top-0 z-40 bg-black/80 backdrop-blur-sm border-b border-gray-800">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
                 <div class="text-2xl font-bold tracking-wider"><a href="index.html">SKYNET</a></div>
@@ -84,8 +84,14 @@
             <h1 class="text-4xl md:text-5xl font-black mb-4">Automation <span class="gradient-text">Dashboard</span></h1>
             <p class="text-lg text-gray-400 mb-12">Welcome, Bolzy. Initiate your automated workflows below.</p>
 
+            <!-- Loading State: Shown briefly on page load -->
+            <div id="loading-state" class="dashboard-card max-w-4xl mx-auto rounded-2xl p-8 text-center">
+                 <div class="spinner mx-auto"></div>
+                 <p class="mt-4 text-gray-400">Checking connection status...</p>
+            </div>
+
             <!-- Instagram Connection Status -->
-            <div id="insta-disconnected" class="dashboard-card max-w-4xl mx-auto rounded-2xl p-8 text-center">
+            <div id="insta-disconnected" class="dashboard-card max-w-4xl mx-auto rounded-2xl p-8 text-center hidden">
                 <i data-lucide="instagram" class="w-12 h-12 text-pink-400 mx-auto mb-4"></i>
                 <h2 class="text-2xl font-bold mb-2">Connect Your Instagram Account</h2>
                 <p class="text-gray-400 mb-6 max-w-xl mx-auto">To access the Automation Hub, please connect your Instagram account. This will redirect you to Facebook to securely authorize SKYNET.</p>
@@ -98,9 +104,9 @@
             <!-- Main Dashboard - Shown when connected -->
             <div id="insta-connected" class="hidden">
                 <div class="dashboard-card max-w-6xl mx-auto rounded-2xl p-8 mb-12">
-                     <div class="flex flex-col md:flex-row items-center justify-between mb-8">
-                        <div class="flex items-center gap-4">
-                            <i data-lucide="check-circle" class="w-10 h-10 text-emerald-400"></i>
+                     <div class="flex flex-col md:flex-row items-center justify-between">
+                        <div class="flex items-center gap-4 text-center md:text-left">
+                            <i data-lucide="check-circle" class="w-10 h-10 text-emerald-400 flex-shrink-0"></i>
                             <div>
                                 <h2 class="text-2xl font-bold">Instagram Automation Hub</h2>
                                 <p class="text-emerald-400">Account Connected: <strong id="insta-username"></strong></p>
@@ -115,7 +121,7 @@
                 </div>
 
                 <div class="max-w-6xl mx-auto">
-                    <h3 class="text-3xl font-bold mb-6 text-center">Select a Workflow to Initiate</h3>
+                    <h3 class="text-3xl font-bold mb-8 text-center">Select a Workflow to Initiate</h3>
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div class="feature-card" data-feature="post-upload" style="background-image: url('assets/post-upload-bg.jpg');">
                             <div class="feature-content"><h3>Content Generation Engine</h3><p>AI-powered image and caption creation for posts.</p></div>
@@ -158,6 +164,7 @@
         lucide.createIcons();
 
         // --- UI Elements ---
+        const loadingState = document.getElementById('loading-state');
         const disconnectedView = document.getElementById('insta-disconnected');
         const connectedView = document.getElementById('insta-connected');
         const connectButton = document.getElementById('connect-insta-btn');
@@ -198,6 +205,9 @@
 
         // --- Core Logic ---
         function updateInstagramUI(isConnected, username, posts, followers, following) {
+            // Hide the loading state first
+            loadingState.classList.add('hidden');
+
             if (isConnected) {
                 disconnectedView.classList.add('hidden');
                 connectedView.classList.remove('hidden');
@@ -278,14 +288,6 @@
                 // Simulate n8n call
                 await new Promise(resolve => setTimeout(resolve, 2500));
                 
-                // const response = await fetch(n8nWebhookUrl, {
-                //     method: 'POST',
-                //     headers: { 'Content-Type': 'application/json' },
-                //     body: JSON.stringify({ intent, feature, accessToken, businessId })
-                // });
-
-                // if (!response.ok) throw new Error('Workflow execution failed.');
-                
                 modalStatusMessage.textContent = 'Workflow initiated successfully!';
                 modalStatusMessage.className = 'mt-4 text-center text-lg text-emerald-400';
                 setTimeout(closeModal, 2000);
@@ -306,25 +308,25 @@
             
             if (authStatus === 'success') {
                 sessionStorage.setItem('instagramConnected', 'true');
-                // In a real app, these values would come from your backend after token exchange
                 sessionStorage.setItem('instagramUsername', 'bolzy99');
                 sessionStorage.setItem('instagramPosts', '125');
                 sessionStorage.setItem('instagramFollowers', '5500');
                 sessionStorage.setItem('instagramFollowing', '90');
-                // You would also store the access token and business ID here
-                // sessionStorage.setItem('instagramAccessToken', 'THE_TOKEN_FROM_BACKEND');
-                // sessionStorage.setItem('instagramBusinessId', 'THE_ID_FROM_BACKEND');
                 window.history.replaceState({}, document.title, window.location.pathname);
             }
 
             const isConnected = sessionStorage.getItem('instagramConnected') === 'true';
-            updateInstagramUI(
-                isConnected,
-                sessionStorage.getItem('instagramUsername'),
-                sessionStorage.getItem('instagramPosts'),
-                sessionStorage.getItem('instagramFollowers'),
-                sessionStorage.getItem('instagramFollowing')
-            );
+            
+            // Use a small timeout to show the loading state briefly, feels more professional
+            setTimeout(() => {
+                 updateInstagramUI(
+                    isConnected,
+                    sessionStorage.getItem('instagramUsername'),
+                    sessionStorage.getItem('instagramPosts'),
+                    sessionStorage.getItem('instagramFollowers'),
+                    sessionStorage.getItem('instagramFollowing')
+                );
+            }, 500); // 0.5 second delay
         });
 
     </script>
