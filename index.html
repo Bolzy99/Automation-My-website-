@@ -184,6 +184,175 @@
         #hero-main-heading {
             white-space: nowrap;
         }
+
+        /* Support Button Styles */
+        #support-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #38bdf8; /* Sky-400 */
+            color: white;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            box-shadow: 0 5px 15px rgba(56, 189, 248, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999; /* Ensure it's above other content */
+        }
+        #support-button:hover {
+            background-color: #0ea5e9; /* Sky-500 */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(56, 189, 248, 0.6);
+        }
+
+        /* Chat Modal Styles */
+        .chat-modal {
+            position: fixed;
+            bottom: 90px; /* Above the button */
+            right: 2rem;
+            width: 350px;
+            height: 500px;
+            background-color: rgba(17, 24, 39, 0.95); /* Darker gray-900 with transparency */
+            border: 1px solid #4b5563; /* Gray-600 */
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 998; /* Below the button, but above content */
+            transform: translateY(20px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        .chat-modal.show {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .chat-header {
+            background-color: #1f2937; /* Gray-800 */
+            padding: 1rem;
+            border-bottom: 1px solid #374151; /* Gray-700 */
+            color: #F3F4F6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+        .chat-close-btn {
+            background: none;
+            border: none;
+            color: #9ca3af; /* Gray-400 */
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .chat-close-btn:hover {
+            color: #F3F4F6;
+        }
+
+        .chat-instructions {
+            padding: 1rem;
+            background-color: #111827; /* Even darker for instructions */
+            color: #a78bfa; /* Purple-400 for a distinct look */
+            font-size: 0.9rem;
+            border-bottom: 1px solid #374151;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            scrollbar-width: thin; /* Firefox */
+            scrollbar-color: #38bdf8 #1f2937; /* Thumb and Track */
+        }
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+        .chat-messages::-webkit-scrollbar-track {
+            background: #1f2937;
+            border-radius: 10px;
+        }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background-color: #38bdf8;
+            border-radius: 10px;
+            border: 2px solid #1f2937;
+        }
+
+        .chat-message {
+            max-width: 80%;
+            padding: 0.6rem 0.9rem;
+            border-radius: 0.75rem;
+            word-wrap: break-word;
+        }
+        .chat-message.user {
+            background-color: #3b82f6; /* Blue-500 */
+            align-self: flex-end;
+            color: white;
+            border-bottom-right-radius: 0;
+        }
+        .chat-message.ai {
+            background-color: #4b5563; /* Gray-600 */
+            align-self: flex-start;
+            color: white;
+            border-bottom-left-radius: 0;
+        }
+        .chat-message.ai .spinner {
+            width: 16px;
+            height: 16px;
+            border-width: 2px;
+            margin: 0;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid #374151;
+            background-color: #1f2937;
+            display: flex;
+            gap: 0.5rem;
+        }
+        .chat-input-area textarea {
+            flex-grow: 1;
+            background-color: #374151; /* Gray-700 */
+            border: 1px solid #4b5563;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            color: #F3F4F6;
+            resize: none; /* Disable manual resize */
+            height: 40px; /* Initial height */
+            min-height: 40px;
+            max-height: 120px; /* Max height before scroll */
+            overflow-y: hidden; /* Hide scrollbar until needed */
+            transition: height 0.2s ease-out;
+        }
+        .chat-input-area textarea:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+        .chat-input-area button {
+            background-color: #38bdf8; /* Sky-400 */
+            color: white;
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .chat-input-area button:hover {
+            background-color: #0ea5e9; /* Sky-500 */
+        }
     </style>
 </head>
 <body class="antialiased">
@@ -403,12 +572,36 @@
         </div>
     </footer>
 
+    <!-- Floating Support Button -->
+    <button id="support-button">
+        <i data-lucide="message-circle"></i>
+    </button>
+
+    <!-- Chat Modal -->
+    <div id="chat-modal" class="chat-modal">
+        <div class="chat-header">
+            <span>AI Support</span>
+            <button id="chat-close-btn">&times;</button>
+        </div>
+        <div class="chat-instructions">
+            <p>Welcome! Describe your query or concern, and our AI assistant will provide immediate support.</p>
+        </div>
+        <div id="chat-messages" class="chat-messages">
+            <!-- Chat messages will be appended here -->
+            <div class="chat-message ai">Hello! How can I assist you with SKYNET automation today?</div>
+        </div>
+        <div class="chat-input-area">
+            <textarea id="chat-input" placeholder="Type your message..."></textarea>
+            <button id="chat-send-btn">Send</button>
+        </div>
+    </div>
+
 
     <script>
         // Initialize Lucide Icons
         lucide.createIcons();
 
-        // --- Header background on scroll ---
+        // --- Header background on scroll ---\
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
@@ -418,7 +611,7 @@
             }
         });
 
-        // --- Parallax text scroll effect (UNCHANGED as requested) ---
+        // --- Parallax text scroll effect ---\
         const parallaxText = document.getElementById('parallax-text');
         const parallaxContainer = document.querySelector('.parallax-container');
 
@@ -600,6 +793,91 @@
                 card.style.removeProperty('--mouse-x');
                 card.style.removeProperty('--mouse-y');
             });
+        });
+
+        // --- AI Support Chatbot Logic ---
+        const supportButton = document.getElementById('support-button');
+        const chatModal = document.getElementById('chat-modal');
+        const chatCloseBtn = document.getElementById('chat-close-btn');
+        const chatInput = document.getElementById('chat-input');
+        const chatSendBtn = document.getElementById('chat-send-btn');
+        const chatMessages = document.getElementById('chat-messages');
+
+        // IMPORTANT: Replace with your actual n8n webhook URL for the AI chatbot
+        const N8N_CHAT_WEBHOOK_URL = 'YOUR_N8N_CHATBOT_WEBHOOK_URL'; 
+
+        // Toggle chat modal visibility
+        supportButton.addEventListener('click', () => {
+            chatModal.classList.toggle('show');
+            if (chatModal.classList.contains('show')) {
+                chatInput.focus(); // Focus input when modal opens
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+            }
+        });
+
+        chatCloseBtn.addEventListener('click', () => {
+            chatModal.classList.remove('show');
+        });
+
+        // Auto-resize textarea
+        chatInput.addEventListener('input', () => {
+            chatInput.style.height = 'auto';
+            chatInput.style.height = (chatInput.scrollHeight) + 'px';
+        });
+
+        // Send message function
+        async function sendMessage() {
+            const userMessage = chatInput.value.trim();
+            if (userMessage === '') return;
+
+            // Add user message to chat
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.classList.add('chat-message', 'user');
+            userMessageDiv.textContent = userMessage;
+            chatMessages.appendChild(userMessageDiv);
+            chatInput.value = ''; // Clear input
+            chatInput.style.height = '40px'; // Reset textarea height
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+
+            // Add loading indicator for AI response
+            const aiLoadingDiv = document.createElement('div');
+            aiLoadingDiv.classList.add('chat-message', 'ai');
+            aiLoadingDiv.innerHTML = '<div class="spinner"></div> Typing...';
+            chatMessages.appendChild(aiLoadingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom
+
+            try {
+                const response = await fetch(N8N_CHAT_WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: userMessage }),
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    const aiReply = result.reply || "Sorry, I couldn't get a response right now.";
+                    aiLoadingDiv.textContent = aiReply; // Update loading message with AI reply
+                } else {
+                    aiLoadingDiv.textContent = 'Error: Could not get a response from the AI.';
+                    console.error('N8N webhook error:', response.status, response.statusText);
+                }
+            } catch (error) {
+                aiLoadingDiv.textContent = 'Error: An unexpected error occurred.';
+                console.error('Fetch error:', error);
+            } finally {
+                chatMessages.scrollTop = chatMessages.scrollHeight; // Scroll to bottom after response
+            }
+        }
+
+        // Event listeners for sending message
+        chatSendBtn.addEventListener('click', sendMessage);
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) { // Send on Enter, new line on Shift+Enter
+                e.preventDefault();
+                sendMessage();
+            }
         });
 
     </script>
