@@ -402,7 +402,8 @@
 
             /* NEW: Adjust parallax background for mobile to reduce "zoomed in" effect */
             .parallax-background {
-                background-size: auto 100%; /* Prioritize filling height, let width adjust proportionally */
+                /* Changed from auto 100% to 100% auto to prioritize width fitting */
+                background-size: 100% auto; /* Prioritize filling width, let height adjust proportionally */
                 background-position: center; /* Keep it centered horizontally */
             }
         }
